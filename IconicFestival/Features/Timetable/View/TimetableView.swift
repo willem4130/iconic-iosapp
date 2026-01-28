@@ -361,7 +361,7 @@ struct TimetableView: View {
                     .font(.headline)
                     .foregroundColor(stageColor(for: stage))
 
-                Text("\(stage.capacity) capaciteit - \(stage.location)")
+                Text(stage.location)
                     .font(.caption)
                     .foregroundColor(AppColors.textSecondary)
             }
@@ -794,15 +794,7 @@ struct PerformanceDetailSheet: View {
                         .foregroundColor(AppColors.textSecondary)
                 }
 
-                Spacer()
 
-                VStack(alignment: .trailing) {
-                    Text("Capaciteit")
-                        .font(.caption)
-                        .foregroundColor(AppColors.textSecondary)
-                    Text("\(performance.stage.capacity)")
-                        .font(.headline)
-                }
             }
             .padding()
             .background(stageColor.opacity(0.1))

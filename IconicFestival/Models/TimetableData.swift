@@ -166,7 +166,12 @@ enum FestivalData {
             meezingers. Zomerse vibes gegarandeerd!
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/11/BeachBoys_Best1_creditsWilliamRutte-min-scaled.jpg",
-            genre: "Surf Rock / Pop"
+            genre: "Surf Rock / Pop",
+            socials: ArtistSocials(
+                website: "https://www.beachboysbest.nl/",
+                instagram: "https://www.instagram.com/beachboysbest/",
+                facebook: "https://www.facebook.com/beachboysbest/"
+            )
         ),
         Artist(
             name: "Coming on Strong",
@@ -180,7 +185,12 @@ enum FestivalData {
             Eerder te zien op Zwarte Cross, Paaspop, Bevrijdingsfestival Den Haag en Oerol.
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2024/01/Battle-of-The-Bands-The-Tribute-1-Credits-William-Rutten-min-scaled.jpg",
-            genre: "Rock"
+            genre: "Rock",
+            socials: ArtistSocials(
+                website: "https://comingonstrong.nl/",
+                instagram: "https://www.instagram.com/comingonstrong.nl/",
+                facebook: "https://www.facebook.com/comingonstrongnl"
+            )
         ),
         Artist(
             name: "The Cosmic Carnival",
@@ -193,7 +203,13 @@ enum FestivalData {
             Verwacht klassiekers als "The Chain", "Landslide", "Rhiannon" en "Don't Stop".
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/03/The-Cosmic-Carnival-Tribute-to-Fleetwood-Mac-Bandfoto.webp",
-            genre: "Psychedelische Rock"
+            genre: "Psychedelische Rock",
+            socials: ArtistSocials(
+                website: "https://www.thecosmiccarnival.com/",
+                instagram: "https://www.instagram.com/thecosmiccarnival/",
+                facebook: "https://www.facebook.com/thecosmiccarnival",
+                youtube: "https://www.youtube.com/user/thecosmiccarnival"
+            )
         ),
         Artist(
             name: "Treasure",
@@ -206,7 +222,12 @@ enum FestivalData {
             allerhoogste niveau.
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/03/blij.webp",
-            genre: "Pop / R&B"
+            genre: "Pop / R&B",
+            socials: ArtistSocials(
+                website: "https://www.treasuretribute.nl/",
+                instagram: "https://www.instagram.com/treasuretributetobruno/",
+                youtube: "https://www.youtube.com/@treasuretribute"
+            )
         ),
         Artist(
             name: "Donna's Hot Stuff",
@@ -220,7 +241,12 @@ enum FestivalData {
             Maak je klaar om de nacht door te dansen!
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/11/Donna_s-Hot-Stuff_CREDITS-WILLIAM-RUTTE-min-scaled.jpg",
-            genre: "Disco"
+            genre: "Disco",
+            socials: ArtistSocials(
+                website: "https://donnashotstuff.nl/",
+                instagram: "https://www.instagram.com/DonnasHotStuff/",
+                facebook: "https://www.facebook.com/donnashotstuff"
+            )
         ),
         Artist(
             name: "Dirty Daddies",
@@ -234,7 +260,12 @@ enum FestivalData {
             Verwacht een onvergetelijk feest!
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/03/thedirtydaddies_2024_liggend-scaled.jpg",
-            genre: "Rock / Party"
+            genre: "Rock / Party",
+            socials: ArtistSocials(
+                website: "https://thedirtydaddies.com/",
+                instagram: "https://www.instagram.com/thedirtydaddies/",
+                facebook: "https://www.facebook.com/TheDirtyDaddies"
+            )
         ),
 
         // Theater Stage
@@ -250,7 +281,12 @@ enum FestivalData {
             hits. Dit wordt een echt ABBA-feest!
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/02/IMG_3046.jpg",
-            genre: "Pop / Disco"
+            genre: "Pop / Disco",
+            socials: ArtistSocials(
+                website: "https://abbagoldeurope.com/",
+                facebook: "https://www.facebook.com/pages/Abba-Gold-Europe/110662948785",
+                youtube: "https://www.youtube.com/user/abbagoldeurope"
+            )
         ),
         Artist(
             name: "Urban Solitude",
@@ -263,7 +299,13 @@ enum FestivalData {
             authenticiteit en rauwe kracht door haar hele carrière heen.
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/03/Anouk-Tribute-Urban-Solitude-Mariska-en-MIke-1024x1024-1.jpg",
-            genre: "Rock / Pop"
+            genre: "Rock / Pop",
+            socials: ArtistSocials(
+                website: "https://urbansolitude.nl/",
+                instagram: "https://www.instagram.com/urbansolitudeanouk/",
+                facebook: "https://www.facebook.com/UrbanSolitudeTribute",
+                youtube: "https://www.youtube.com/@UrbanSolitudeTribute"
+            )
         ),
         Artist(
             name: "Future Nostalgia",
@@ -276,7 +318,12 @@ enum FestivalData {
             "Cold Heart". Dans mee op de beats die de wereld veroverden!
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/11/Scherm\u{00AD}afbeelding-2025-11-04-om-14.51.28.png",
-            genre: "Pop / Dance"
+            genre: "Pop / Dance",
+            socials: ArtistSocials(
+                website: "https://futurenostalgiadle.com/",
+                instagram: "https://www.instagram.com/futureenostalgiaa_/",
+                youtube: "https://www.youtube.com/@FutureNostalgia-o4r"
+            )
         ),
         Artist(
             name: "The Dutch Queen",
@@ -293,10 +340,9 @@ enum FestivalData {
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/12/about-bg-scaled-1-e1765997380313.jpg",
             genre: "Rock",
             socials: ArtistSocials(
-                website: "https://thedutchqueen.com",
-                instagram: "https://www.instagram.com/thedutchqueen_band/",
-                facebook: "https://www.facebook.com/thedutchqueenband",
-                youtube: "https://www.youtube.com/@thedutchqueen"
+                website: "https://thedutchqueen.com/",
+                instagram: "https://www.instagram.com/the_dutch_queen/",
+                facebook: "https://www.facebook.com/thedutchqueen"
             )
         )
     ]
