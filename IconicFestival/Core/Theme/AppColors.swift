@@ -17,6 +17,12 @@ enum AppColors {
     /// Primary gold/orange - #F29100
     static let primaryGold = Color(hex: "F29100")
 
+    /// Warm cream background - #EFE9E4 (from website brand)
+    static let warmCream = Color(hex: "EFE9E4")
+
+    /// Warm cream darker variant for contrast
+    static let warmCreamDark = Color(hex: "E5DDD6")
+
     // MARK: - Stage Colors
 
     /// Main Stage gold - #AA7712

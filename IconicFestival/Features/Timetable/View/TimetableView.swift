@@ -18,7 +18,7 @@ struct TimetableView: View {
                 // Timetable
                 integraalTwoColumnView
             }
-            .background(AppColors.background)
+            .background(AppColors.warmCream)
             .navigationBarHidden(true)
             .sheet(item: $selectedPerformance) { performance in
                 PerformanceDetailSheet(performance: performance)
@@ -184,13 +184,14 @@ struct TimetableView: View {
 
     private func timeLabelsColumn(gridStart: Date, gridEnd: Date) -> some View {
         let calendar = Calendar.current
-        var labels: [(date: Date, label: String)] = []
+        var labels: [(date: Date, label: String, isHour: Bool)] = []
         var current = gridStart
 
         while current <= gridEnd {
             let formatter = DateFormatter()
             formatter.dateFormat = "HH:mm"
-            labels.append((date: current, label: formatter.string(from: current)))
+            let minute = calendar.component(.minute, from: current)
+            labels.append((date: current, label: formatter.string(from: current), isHour: minute == 0))
             current = calendar.date(byAdding: .minute, value: 15, to: current) ?? current
         }
 
@@ -198,14 +199,20 @@ struct TimetableView: View {
         let totalHeight = CGFloat(totalMinutes) * minuteHeight
 
         return ZStack(alignment: .topLeading) {
+            // Navy background strip
+            RoundedRectangle(cornerRadius: 6)
+                .fill(AppColors.primaryDark.opacity(0.08))
+                .frame(width: 44, height: totalHeight)
+
             ForEach(labels.indices, id: \.self) { index in
                 let label = labels[index]
                 let offsetMinutes = label.date.timeIntervalSince(gridStart) / 60
                 let yOffset = CGFloat(offsetMinutes) * minuteHeight
 
                 Text(label.label)
-                    .font(.caption2)
-                    .foregroundColor(AppColors.textTertiary)
+                    .font(label.isHour ? .caption : .caption2)
+                    .fontWeight(label.isHour ? .semibold : .regular)
+                    .foregroundColor(label.isHour ? AppColors.primaryDark : AppColors.textTertiary)
                     .offset(y: yOffset - 6) // Center on the grid line
             }
         }
@@ -237,7 +244,7 @@ struct TimetableView: View {
                 let isHourLine = minute == 0
 
                 Rectangle()
-                    .fill(isHourLine ? AppColors.textTertiary.opacity(0.3) : AppColors.textTertiary.opacity(0.1))
+                    .fill(isHourLine ? AppColors.primaryDark.opacity(0.15) : AppColors.primaryDark.opacity(0.05))
                     .frame(height: isHourLine ? 1 : 0.5)
                     .offset(y: yOffset)
             }
@@ -260,17 +267,18 @@ struct TimetableView: View {
     // MARK: - Stage Column Header
 
     private func stageColumnHeader(stage: Stage) -> some View {
-        VStack(spacing: 4) {
-            Text(stage.rawValue)
-                .font(.subheadline)
-                .fontWeight(.bold)
-                .foregroundColor(stage == .mainStage ? AppColors.stageMain : AppColors.stageTheater)
+        let stageColor = stage == .mainStage ? AppColors.stageMain : AppColors.stageTheater
 
-            Rectangle()
-                .fill(stage == .mainStage ? AppColors.stageMain : AppColors.stageTheater)
-                .frame(height: 2)
-        }
-        .padding(.bottom, 4)
+        return Text(stage.rawValue)
+            .font(.subheadline)
+            .fontWeight(.bold)
+            .foregroundColor(.white)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .frame(maxWidth: .infinity)
+            .background(stageColor)
+            .cornerRadius(8)
+            .padding(.bottom, 4)
     }
 
     // MARK: - Timetable Header
@@ -278,9 +286,9 @@ struct TimetableView: View {
     private var integraalHeader: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Timetable")
+                Text("Programma")
                     .font(.headline)
-                    .foregroundColor(AppColors.primaryGold)
+                    .foregroundColor(AppColors.primaryDark)
 
                 Text("Beide podia op tijdvolgorde")
                     .font(.caption)
@@ -294,7 +302,7 @@ struct TimetableView: View {
                 .foregroundColor(AppColors.primaryGold)
         }
         .padding()
-        .background(AppColors.primaryGold.opacity(0.1))
+        .background(AppColors.primaryDark.opacity(0.08))
         .cornerRadius(12)
     }
 
@@ -371,14 +379,23 @@ struct CompactPerformanceCard: View {
             Spacer(minLength: 0)
         }
         .padding(isVeryCompact ? 6 : (isCompact ? 8 : 10))
+        .padding(.leading, 4) // Space for accent bar
         .frame(maxWidth: .infinity, alignment: .leading)
         .frame(height: height)
-        .background(stageColor.opacity(0.15))
-        .cornerRadius(8)
-        .overlay(
-            RoundedRectangle(cornerRadius: 8)
-                .strokeBorder(stageColor.opacity(0.5), lineWidth: 1)
+        .background(
+            ZStack(alignment: .leading) {
+                // Warm cream base
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.white)
+
+                // Stage color accent bar on left
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(stageColor)
+                    .frame(width: 4)
+            }
         )
+        .cornerRadius(8)
+        .shadow(color: AppColors.primaryDark.opacity(0.08), radius: 2, x: 0, y: 1)
     }
 
     private func timeString(_ date: Date) -> String {
