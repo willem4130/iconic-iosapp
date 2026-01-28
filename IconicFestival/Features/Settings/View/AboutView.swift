@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// About screen with app and festival information
+/// Over scherm met app en festival informatie
 struct AboutView: View {
 
     // MARK: - Body
@@ -13,7 +13,7 @@ struct AboutView: View {
             legalSection
             creditsSection
         }
-        .navigationTitle("About")
+        .navigationTitle("Over")
         .navigationBarTitleDisplayMode(.inline)
     }
 
@@ -22,22 +22,17 @@ struct AboutView: View {
     private var appInfoSection: some View {
         Section {
             VStack(spacing: 16) {
-                // App icon placeholder
-                ZStack {
-                    Circle()
-                        .fill(AppColors.primaryDark)
-                        .frame(width: 80, height: 80)
-
-                    Image(systemName: "music.note.list")
-                        .font(.system(size: 35))
-                        .foregroundColor(AppColors.primaryGold)
-                }
+                // App logo
+                Image("IconicLogo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 80)
 
                 Text("Iconic Festival")
                     .font(.title2)
                     .fontWeight(.semibold)
 
-                Text("Your official guide to Iconic Festival 2026")
+                Text("Jouw officiële gids voor Iconic Festival 2026")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
@@ -49,15 +44,15 @@ struct AboutView: View {
 
     private var festivalSection: some View {
         Section("Festival") {
-            LabeledContent("Event") {
+            LabeledContent("Evenement") {
                 Text(FestivalData.festivalName)
             }
 
-            LabeledContent("Location") {
+            LabeledContent("Locatie") {
                 Text(FestivalData.festivalLocation)
             }
 
-            LabeledContent("Date") {
+            LabeledContent("Datum") {
                 Text(FestivalData.festivalDate)
             }
 
@@ -71,7 +66,7 @@ struct AboutView: View {
         Section("Links") {
             if let websiteURL = URL(string: FestivalInfo.contact.website) {
                 Link(destination: websiteURL) {
-                    Label("Official Website", systemImage: "safari")
+                    Label("Officiële Website", systemImage: "safari")
                 }
             }
 
@@ -90,23 +85,23 @@ struct AboutView: View {
     }
 
     private var legalSection: some View {
-        Section("Legal") {
+        Section("Juridisch") {
             NavigationLink {
                 LegalTextView(
-                    title: "Privacy Policy",
+                    title: "Privacybeleid",
                     text: privacyPolicyText
                 )
             } label: {
-                Label("Privacy Policy", systemImage: "hand.raised")
+                Label("Privacybeleid", systemImage: "hand.raised")
             }
 
             NavigationLink {
                 LegalTextView(
-                    title: "Terms of Service",
+                    title: "Algemene Voorwaarden",
                     text: termsOfServiceText
                 )
             } label: {
-                Label("Terms of Service", systemImage: "doc.text")
+                Label("Algemene Voorwaarden", systemImage: "doc.text")
             }
         }
     }
@@ -114,11 +109,11 @@ struct AboutView: View {
     private var creditsSection: some View {
         Section("Credits") {
             VStack(alignment: .leading, spacing: 8) {
-                Text("Developed with SwiftUI")
+                Text("Ontwikkeld met SwiftUI")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
 
-                Text("Powered by Claude AI")
+                Text("Aangedreven door Claude AI")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
 
@@ -134,85 +129,85 @@ struct AboutView: View {
 
     private var privacyPolicyText: String {
         """
-        Privacy Policy
+        Privacybeleid
 
-        Last updated: January 2026
+        Laatst bijgewerkt: januari 2026
 
-        Iconic Festival ("we", "our", or "us") respects your privacy. This Privacy Policy explains how we collect, use, and protect your personal information when you use the Iconic Festival mobile application.
+        Iconic Festival ("wij", "ons" of "onze") respecteert uw privacy. Dit Privacybeleid legt uit hoe wij uw persoonlijke gegevens verzamelen, gebruiken en beschermen wanneer u de Iconic Festival mobiele applicatie gebruikt.
 
-        INFORMATION WE COLLECT
+        INFORMATIE DIE WIJ VERZAMELEN
 
-        - Device information: Device type, operating system version
-        - Usage data: App features used, interactions with the app
-        - Location data: Only when explicitly permitted for festival navigation
-        - Chat data: Conversations with our AI assistant (stored locally on device)
+        - Apparaatinformatie: apparaattype, besturingssysteemversie
+        - Gebruiksgegevens: app-functies gebruikt, interacties met de app
+        - Locatiegegevens: alleen wanneer expliciet toegestaan voor festivalnavigatie
+        - Chatgegevens: gesprekken met onze AI-assistent (lokaal opgeslagen op apparaat)
 
-        HOW WE USE YOUR INFORMATION
+        HOE WIJ UW INFORMATIE GEBRUIKEN
 
-        We use your information to:
-        - Provide and improve the app experience
-        - Send you notifications about performances (if enabled)
-        - Personalize your festival experience
+        Wij gebruiken uw informatie om:
+        - De app-ervaring te bieden en te verbeteren
+        - U meldingen te sturen over optredens (indien ingeschakeld)
+        - Uw festivalervaring te personaliseren
 
-        DATA STORAGE
+        GEGEVENSOPSLAG
 
-        - Chat messages are stored locally on your device
-        - Favorite artists are stored locally on your device
-        - We do not sell your personal information to third parties
+        - Chatberichten worden lokaal op uw apparaat opgeslagen
+        - Favoriete artiesten worden lokaal op uw apparaat opgeslagen
+        - Wij verkopen uw persoonlijke informatie niet aan derden
 
-        YOUR RIGHTS
+        UW RECHTEN
 
-        You have the right to:
-        - Access your personal data
-        - Delete your data (via Settings > Debug > Clear All Data)
-        - Opt out of notifications
+        U heeft het recht om:
+        - Toegang te krijgen tot uw persoonlijke gegevens
+        - Uw gegevens te verwijderen (via Instellingen > Debug > Alle Data Wissen)
+        - Af te melden voor meldingen
 
-        CONTACT US
+        NEEM CONTACT MET ONS OP
 
-        For privacy-related inquiries:
-        Email: privacy@iconicfestival.nl
+        Voor privacy-gerelateerde vragen:
+        E-mail: privacy@iconicfestival.nl
         Website: \(FestivalInfo.contact.website)
         """
     }
 
     private var termsOfServiceText: String {
         """
-        Terms of Service
+        Algemene Voorwaarden
 
-        Last updated: January 2026
+        Laatst bijgewerkt: januari 2026
 
-        By using the Iconic Festival mobile application, you agree to these Terms of Service.
+        Door de Iconic Festival mobiele applicatie te gebruiken, gaat u akkoord met deze Algemene Voorwaarden.
 
-        USE OF THE APP
+        GEBRUIK VAN DE APP
 
-        - The app is provided for informational purposes about Iconic Festival 2026
-        - Timetable information may be subject to change
-        - The AI assistant provides general information and may not always be accurate
+        - De app wordt aangeboden voor informatiedoeleinden over Iconic Festival 2026
+        - Programma-informatie kan aan verandering onderhevig zijn
+        - De AI-assistent biedt algemene informatie en is mogelijk niet altijd nauwkeurig
 
-        CONTENT
+        INHOUD
 
-        - All content, including timetables and artist information, is owned by Iconic Festival
-        - Do not reproduce or distribute content without permission
+        - Alle inhoud, inclusief programma's en artiestinformatie, is eigendom van Iconic Festival
+        - Reproduceer of verspreid geen inhoud zonder toestemming
 
-        LIMITATIONS
+        BEPERKINGEN
 
-        - We are not responsible for any changes to the festival program
-        - The app is provided "as is" without warranties
-        - We are not liable for any damages arising from app use
+        - Wij zijn niet verantwoordelijk voor wijzigingen in het festivalprogramma
+        - De app wordt "as is" aangeboden zonder garanties
+        - Wij zijn niet aansprakelijk voor eventuele schade voortvloeiend uit app-gebruik
 
-        FESTIVAL ATTENDANCE
+        FESTIVALBEZOEK
 
-        - This app does not replace your festival ticket
-        - Festival rules and regulations apply separately
+        - Deze app vervangt uw festivalticket niet
+        - Festivalregels en -voorschriften gelden apart
 
         UPDATES
 
-        We may update these terms from time to time. Continued use of the app constitutes acceptance of any changes.
+        Wij kunnen deze voorwaarden van tijd tot tijd bijwerken. Voortgezet gebruik van de app betekent acceptatie van eventuele wijzigingen.
 
         CONTACT
 
-        For questions about these terms:
-        Email: legal@iconicfestival.nl
+        Voor vragen over deze voorwaarden:
+        E-mail: legal@iconicfestival.nl
         Website: \(FestivalInfo.contact.website)
         """
     }

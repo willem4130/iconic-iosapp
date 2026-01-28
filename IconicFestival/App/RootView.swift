@@ -8,63 +8,48 @@ struct RootView: View {
 
     @EnvironmentObject private var router: Router
     @EnvironmentObject private var themeManager: ThemeManager
-    @State private var selectedTab: Tab = .timetable
+    @State private var selectedTab: AppTab = .timetable
 
     // MARK: - Body
 
     var body: some View {
         TabView(selection: $selectedTab) {
-            timetableTab
-            infoTab
-            chatTab
-            settingsTab
+            TimetableView()
+                .tabItem {
+                    Label("Programma", systemImage: "calendar")
+                }
+                .tag(AppTab.timetable)
+
+            InfoView()
+                .tabItem {
+                    Label("Info", systemImage: "info.circle")
+                }
+                .tag(AppTab.info)
+
+            ChatView()
+                .tabItem {
+                    Label("Vraag", systemImage: "bubble.left.and.bubble.right")
+                }
+                .tag(AppTab.chat)
+
+            NavigationStack(path: $router.settingsPath) {
+                SettingsView()
+                    .navigationDestination(for: Route.self) { route in
+                        router.destination(for: route)
+                    }
+            }
+            .tabItem {
+                Label("Meer", systemImage: "ellipsis")
+            }
+            .tag(AppTab.settings)
         }
         .tint(AppColors.primaryGold)
-    }
-
-    // MARK: - Tabs
-
-    private var timetableTab: some View {
-        TimetableView()
-            .tabItem {
-                Label("Timetable", systemImage: "calendar")
-            }
-            .tag(Tab.timetable)
-    }
-
-    private var infoTab: some View {
-        InfoView()
-            .tabItem {
-                Label("Info", systemImage: "info.circle")
-            }
-            .tag(Tab.info)
-    }
-
-    private var chatTab: some View {
-        ChatView()
-            .tabItem {
-                Label("Ask", systemImage: "bubble.left.and.bubble.right")
-            }
-            .tag(Tab.chat)
-    }
-
-    private var settingsTab: some View {
-        NavigationStack(path: $router.settingsPath) {
-            SettingsView()
-                .navigationDestination(for: Route.self) { route in
-                    router.destination(for: route)
-                }
-        }
-        .tabItem {
-            Label("More", systemImage: "ellipsis")
-        }
-        .tag(Tab.settings)
     }
 }
 
 // MARK: - Tab Enum
 
-enum Tab: Hashable {
+enum AppTab: Hashable {
     case timetable
     case info
     case chat

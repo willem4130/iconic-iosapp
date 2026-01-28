@@ -1,7 +1,7 @@
 import SwiftUI
 import SwiftData
 
-/// AI-powered chat assistant for festival visitors
+/// AI-gestuurde chat assistent voor festivalbezoekers
 struct ChatView: View {
 
     // MARK: - State
@@ -17,6 +17,9 @@ struct ChatView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
+                // Logo header
+                logoHeader
+
                 // Messages
                 messagesView
 
@@ -24,7 +27,7 @@ struct ChatView: View {
                 inputView
             }
             .background(AppColors.background)
-            .navigationTitle("Festival Assistant")
+            .navigationTitle("Festival Assistent")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -39,11 +42,26 @@ struct ChatView: View {
         }
     }
 
+    // MARK: - Logo Header
+
+    private var logoHeader: some View {
+        HStack {
+            Spacer()
+            Image("IconicLogo")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 50)
+            Spacer()
+        }
+        .padding(.vertical, 8)
+        .background(AppColors.primaryDark)
+    }
+
     // MARK: - Messages View
 
     private var messagesView: some View {
         ScrollViewReader { proxy in
-            ScrollView {
+            ScrollView(showsIndicators: true) {
                 LazyVStack(spacing: 12) {
                     // Welcome message
                     if messages.isEmpty {
@@ -61,7 +79,7 @@ struct ChatView: View {
                         HStack {
                             ProgressView()
                                 .tint(AppColors.primaryGold)
-                            Text("Thinking...")
+                            Text("Even denken...")
                                 .foregroundColor(AppColors.textSecondary)
                         }
                         .padding()
@@ -69,6 +87,7 @@ struct ChatView: View {
                 }
                 .padding()
             }
+            .scrollIndicators(.visible)
             .onChange(of: messages.count) { _, _ in
                 if let lastMessage = messages.last {
                     withAnimation {
@@ -87,18 +106,18 @@ struct ChatView: View {
                 .font(.system(size: 50))
                 .foregroundColor(AppColors.primaryGold)
 
-            Text("Welcome to the Iconic Festival Assistant!")
+            Text("Welkom bij de Iconic Festival Assistent!")
                 .font(.headline)
                 .multilineTextAlignment(.center)
 
-            Text("Ask me anything about the festival - timetable, artists, facilities, or practical info.")
+            Text("Stel me vragen over het festival - programma, artiesten, faciliteiten of praktische info.")
                 .font(.subheadline)
                 .foregroundColor(AppColors.textSecondary)
                 .multilineTextAlignment(.center)
 
             // Quick suggestions
             VStack(spacing: 8) {
-                Text("Try asking:")
+                Text("Probeer bijvoorbeeld:")
                     .font(.caption)
                     .foregroundColor(AppColors.textTertiary)
 
@@ -124,7 +143,7 @@ struct ChatView: View {
 
     private var inputView: some View {
         HStack(spacing: 12) {
-            TextField("Ask about the festival...", text: $inputText)
+            TextField("Stel een vraag over het festival...", text: $inputText)
                 .textFieldStyle(.plain)
                 .padding(12)
                 .background(AppColors.secondaryBackground)

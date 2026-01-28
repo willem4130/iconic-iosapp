@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// Manages app theming including dark/light/system mode
-/// Publishes changes to update all observing views
+/// Beheert app-thema inclusief donker/licht/systeem modus
+/// Publiceert wijzigingen om alle observerende views bij te werken
 @MainActor
 final class ThemeManager: ObservableObject {
 
@@ -15,7 +15,7 @@ final class ThemeManager: ObservableObject {
 
     // MARK: - Computed Properties
 
-    /// Returns the appropriate ColorScheme based on current mode
+    /// Retourneert het juiste ColorScheme gebaseerd op huidige modus
     var colorScheme: ColorScheme? {
         switch currentMode {
         case .light:
@@ -23,11 +23,11 @@ final class ThemeManager: ObservableObject {
         case .dark:
             return .dark
         case .system:
-            return nil // Let system decide
+            return nil // Laat systeem beslissen
         }
     }
 
-    /// Accent color for the app
+    /// Accentkleur voor de app
     var accentColor: Color {
         Color.accentColor
     }
@@ -75,11 +75,11 @@ enum ThemeMode: String, CaseIterable, Identifiable {
     var displayName: String {
         switch self {
         case .system:
-            return "System"
+            return "Systeem"
         case .light:
-            return "Light"
+            return "Licht"
         case .dark:
-            return "Dark"
+            return "Donker"
         }
     }
 

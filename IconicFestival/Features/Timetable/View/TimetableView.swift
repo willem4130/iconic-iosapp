@@ -1,11 +1,17 @@
 import SwiftUI
 
-/// Main timetable view showing festival schedule
+/// Timetable weergave met festival programma
 struct TimetableView: View {
 
     // MARK: - State
 
-    @State private var selectedStage: Stage = .mainStage
+    enum ViewMode: String, CaseIterable {
+        case integraal = "Integraal"
+        case mainStage = "Main Stage"
+        case theater = "Openluchttheater"
+    }
+
+    @State private var selectedViewMode: ViewMode = .integraal
     @State private var selectedPerformance: Performance?
 
     // MARK: - Body
@@ -13,14 +19,17 @@ struct TimetableView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                // Stage selector
-                stagePicker
+                // Logo header
+                logoHeader
+
+                // View mode selector
+                viewModePicker
 
                 // Performance list
                 performanceList
             }
             .background(AppColors.background)
-            .navigationTitle("Timetable")
+            .navigationTitle("Programma")
             .navigationBarTitleDisplayMode(.large)
             .sheet(item: $selectedPerformance) { performance in
                 PerformanceDetailSheet(performance: performance)
@@ -28,12 +37,27 @@ struct TimetableView: View {
         }
     }
 
-    // MARK: - Stage Picker
+    // MARK: - Logo Header
 
-    private var stagePicker: some View {
-        Picker("Stage", selection: $selectedStage) {
-            ForEach(Stage.allCases) { stage in
-                Text(stage.rawValue).tag(stage)
+    private var logoHeader: some View {
+        HStack {
+            Spacer()
+            Image("IconicLogo")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 60)
+            Spacer()
+        }
+        .padding(.vertical, 8)
+        .background(AppColors.primaryDark)
+    }
+
+    // MARK: - View Mode Picker
+
+    private var viewModePicker: some View {
+        Picker("Weergave", selection: $selectedViewMode) {
+            ForEach(ViewMode.allCases, id: \.self) { mode in
+                Text(mode.rawValue).tag(mode)
             }
         }
         .pickerStyle(.segmented)
@@ -44,35 +68,278 @@ struct TimetableView: View {
     // MARK: - Performance List
 
     private var performanceList: some View {
-        let performances = FestivalData.performancesByStage()[selectedStage] ?? []
-        let sortedPerformances = performances.sorted { $0.startTime < $1.startTime }
+        Group {
+            if selectedViewMode == .integraal {
+                // Two-column layout for Integraal view
+                integraalTwoColumnView
+            } else {
+                // Single column for individual stage views
+                singleStageView
+            }
+        }
+    }
 
-        return ScrollView {
+    // MARK: - Integraal Two-Column View (Time-Aligned Grid)
+
+    /// Height per 15-minute block in points
+    private let minuteHeight: CGFloat = 4.0
+
+    private var integraalTwoColumnView: some View {
+        let mainStagePerformances = (FestivalData.performancesByStage()[.mainStage] ?? []).sorted { $0.startTime < $1.startTime }
+        let theaterPerformances = (FestivalData.performancesByStage()[.theater] ?? []).sorted { $0.startTime < $1.startTime }
+
+        // Calculate time range for the grid
+        let allPerformances = mainStagePerformances + theaterPerformances
+        guard let earliestStart = allPerformances.map({ $0.startTime }).min(),
+              let latestEnd = allPerformances.map({ $0.endTime }).max() else {
+            return AnyView(Text("Geen programma beschikbaar").foregroundColor(AppColors.textSecondary))
+        }
+
+        // Round to 15-minute boundaries
+        let gridStart = roundToQuarter(earliestStart, roundDown: true)
+        let gridEnd = roundToQuarter(latestEnd, roundDown: false)
+        let totalMinutes = gridEnd.timeIntervalSince(gridStart) / 60
+        let totalHeight = CGFloat(totalMinutes) * minuteHeight
+
+        return AnyView(
+            ScrollView(.vertical, showsIndicators: true) {
+                VStack(spacing: 12) {
+                    // Header
+                    integraalHeader
+
+                    // Column headers
+                    HStack(spacing: 8) {
+                        // Time column spacer
+                        Color.clear.frame(width: 44)
+
+                        stageColumnHeader(stage: .mainStage)
+                            .frame(maxWidth: .infinity)
+
+                        stageColumnHeader(stage: .theater)
+                            .frame(maxWidth: .infinity)
+                    }
+
+                    // Time-aligned grid
+                    HStack(alignment: .top, spacing: 8) {
+                        // Time labels column
+                        timeLabelsColumn(gridStart: gridStart, gridEnd: gridEnd)
+                            .frame(width: 44)
+
+                        // Main Stage Column
+                        ZStack(alignment: .top) {
+                            // Grid lines
+                            timeGridLines(gridStart: gridStart, gridEnd: gridEnd)
+
+                            // Performance cards
+                            ForEach(mainStagePerformances) { performance in
+                                timeAlignedCard(performance: performance, gridStart: gridStart)
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: totalHeight)
+
+                        // Openluchttheater Column
+                        ZStack(alignment: .top) {
+                            // Grid lines
+                            timeGridLines(gridStart: gridStart, gridEnd: gridEnd)
+
+                            // Performance cards
+                            ForEach(theaterPerformances) { performance in
+                                timeAlignedCard(performance: performance, gridStart: gridStart)
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: totalHeight)
+                    }
+                }
+                .padding()
+            }
+            .scrollIndicators(.visible)
+        )
+    }
+
+    // MARK: - Time Grid Helpers
+
+    private func roundToQuarter(_ date: Date, roundDown: Bool) -> Date {
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
+        let minute = components.minute ?? 0
+        let roundedMinute: Int
+
+        if roundDown {
+            roundedMinute = (minute / 15) * 15
+        } else {
+            roundedMinute = ((minute + 14) / 15) * 15
+        }
+
+        var newComponents = components
+        newComponents.minute = roundedMinute % 60
+        if roundedMinute >= 60 {
+            newComponents.hour = (components.hour ?? 0) + 1
+        }
+
+        return calendar.date(from: newComponents) ?? date
+    }
+
+    private func timeLabelsColumn(gridStart: Date, gridEnd: Date) -> some View {
+        let calendar = Calendar.current
+        var labels: [(date: Date, label: String)] = []
+        var current = gridStart
+
+        while current <= gridEnd {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "HH:mm"
+            labels.append((date: current, label: formatter.string(from: current)))
+            current = calendar.date(byAdding: .minute, value: 15, to: current) ?? current
+        }
+
+        let totalMinutes = gridEnd.timeIntervalSince(gridStart) / 60
+        let totalHeight = CGFloat(totalMinutes) * minuteHeight
+
+        return ZStack(alignment: .topLeading) {
+            ForEach(labels.indices, id: \.self) { index in
+                let label = labels[index]
+                let offsetMinutes = label.date.timeIntervalSince(gridStart) / 60
+                let yOffset = CGFloat(offsetMinutes) * minuteHeight
+
+                Text(label.label)
+                    .font(.caption2)
+                    .foregroundColor(AppColors.textTertiary)
+                    .offset(y: yOffset - 6) // Center on the grid line
+            }
+        }
+        .frame(height: totalHeight, alignment: .topLeading)
+    }
+
+    private func timeGridLines(gridStart: Date, gridEnd: Date) -> some View {
+        let calendar = Calendar.current
+        var lines: [Date] = []
+        var current = gridStart
+
+        while current <= gridEnd {
+            lines.append(current)
+            current = calendar.date(byAdding: .minute, value: 15, to: current) ?? current
+        }
+
+        let totalMinutes = gridEnd.timeIntervalSince(gridStart) / 60
+        let totalHeight = CGFloat(totalMinutes) * minuteHeight
+
+        return ZStack(alignment: .topLeading) {
+            ForEach(lines.indices, id: \.self) { index in
+                let lineDate = lines[index]
+                let offsetMinutes = lineDate.timeIntervalSince(gridStart) / 60
+                let yOffset = CGFloat(offsetMinutes) * minuteHeight
+
+                // Determine if this is an hour line (bold) or quarter line (subtle)
+                let calendar = Calendar.current
+                let minute = calendar.component(.minute, from: lineDate)
+                let isHourLine = minute == 0
+
+                Rectangle()
+                    .fill(isHourLine ? AppColors.textTertiary.opacity(0.3) : AppColors.textTertiary.opacity(0.1))
+                    .frame(height: isHourLine ? 1 : 0.5)
+                    .offset(y: yOffset)
+            }
+        }
+        .frame(height: totalHeight, alignment: .topLeading)
+    }
+
+    private func timeAlignedCard(performance: Performance, gridStart: Date) -> some View {
+        let offsetMinutes = performance.startTime.timeIntervalSince(gridStart) / 60
+        let yOffset = CGFloat(offsetMinutes) * minuteHeight
+        let cardHeight = CGFloat(performance.durationMinutes) * minuteHeight
+
+        return CompactPerformanceCard(performance: performance, height: cardHeight)
+            .offset(y: yOffset)
+            .onTapGesture {
+                selectedPerformance = performance
+            }
+    }
+
+    // MARK: - Single Stage View
+
+    private var singleStageView: some View {
+        let performances: [Performance]
+
+        switch selectedViewMode {
+        case .integraal:
+            performances = []
+        case .mainStage:
+            performances = (FestivalData.performancesByStage()[.mainStage] ?? []).sorted { $0.startTime < $1.startTime }
+        case .theater:
+            performances = (FestivalData.performancesByStage()[.theater] ?? []).sorted { $0.startTime < $1.startTime }
+        }
+
+        return ScrollView(.vertical, showsIndicators: true) {
             LazyVStack(spacing: 12) {
-                // Stage info header
                 stageInfoHeader
 
-                ForEach(sortedPerformances) { performance in
-                    PerformanceCard(performance: performance)
+                ForEach(performances) { performance in
+                    PerformanceCard(performance: performance, showStage: false)
                         .onTapGesture {
                             selectedPerformance = performance
                         }
+                        .id(performance.id)
                 }
             }
             .padding()
         }
+        .scrollIndicators(.visible)
+    }
+
+    // MARK: - Stage Column Header
+
+    private func stageColumnHeader(stage: Stage) -> some View {
+        VStack(spacing: 4) {
+            Text(stage.rawValue)
+                .font(.subheadline)
+                .fontWeight(.bold)
+                .foregroundColor(stage == .mainStage ? AppColors.stageMain : AppColors.stageTheater)
+
+            Rectangle()
+                .fill(stage == .mainStage ? AppColors.stageMain : AppColors.stageTheater)
+                .frame(height: 2)
+        }
+        .padding(.bottom, 4)
+    }
+
+    // MARK: - Integraal Header
+
+    private var integraalHeader: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Volledig Programma")
+                    .font(.headline)
+                    .foregroundColor(AppColors.primaryGold)
+
+                Text("Beide podia op tijdvolgorde")
+                    .font(.caption)
+                    .foregroundColor(AppColors.textSecondary)
+            }
+
+            Spacer()
+
+            Image(systemName: "music.note.list")
+                .font(.title2)
+                .foregroundColor(AppColors.primaryGold)
+        }
+        .padding()
+        .background(AppColors.primaryGold.opacity(0.1))
+        .cornerRadius(12)
     }
 
     // MARK: - Stage Info Header
 
     private var stageInfoHeader: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(selectedStage.rawValue)
-                    .font(.headline)
-                    .foregroundColor(stageColor)
+        let stage: Stage = selectedViewMode == .mainStage ? .mainStage : .theater
 
-                Text("\(selectedStage.capacity) capacity • \(selectedStage.location)")
+        return HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(stage.rawValue)
+                    .font(.headline)
+                    .foregroundColor(stageColor(for: stage))
+
+                Text("\(stage.capacity) capaciteit - \(stage.location)")
                     .font(.caption)
                     .foregroundColor(AppColors.textSecondary)
             }
@@ -81,15 +348,15 @@ struct TimetableView: View {
 
             Image(systemName: "music.note.house.fill")
                 .font(.title2)
-                .foregroundColor(stageColor)
+                .foregroundColor(stageColor(for: stage))
         }
         .padding()
-        .background(stageColor.opacity(0.1))
+        .background(stageColor(for: stage).opacity(0.1))
         .cornerRadius(12)
     }
 
-    private var stageColor: Color {
-        selectedStage == .mainStage ? AppColors.stageMain : AppColors.stageTheater
+    private func stageColor(for stage: Stage) -> Color {
+        stage == .mainStage ? AppColors.stageMain : AppColors.stageTheater
     }
 }
 
@@ -97,6 +364,7 @@ struct TimetableView: View {
 
 struct PerformanceCard: View {
     let performance: Performance
+    var showStage: Bool = false
 
     private var stageColor: Color {
         performance.stage == .mainStage ? AppColors.stageMain : AppColors.stageTheater
@@ -140,7 +408,7 @@ struct PerformanceCard: View {
                 }
 
                 if let tribute = performance.artist.tributeTo {
-                    Text("Tribute to \(tribute)")
+                    Text("Tribute aan \(tribute)")
                         .font(.subheadline)
                         .foregroundColor(AppColors.textSecondary)
                 }
@@ -150,6 +418,15 @@ struct PerformanceCard: View {
                         .font(.caption)
                     Text("\(performance.durationMinutes) min")
                         .font(.caption)
+
+                    if showStage {
+                        Text("•")
+                            .foregroundColor(AppColors.textTertiary)
+                        Text(performance.stage.rawValue)
+                            .font(.caption)
+                            .fontWeight(.medium)
+                            .foregroundColor(stageColor)
+                    }
 
                     Spacer()
 
@@ -171,6 +448,100 @@ struct PerformanceCard: View {
         .overlay(
             RoundedRectangle(cornerRadius: 12)
                 .strokeBorder(stageColor.opacity(0.3), lineWidth: 1)
+        )
+    }
+
+    private func timeString(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter.string(from: date)
+    }
+}
+
+// MARK: - Compact Performance Card (for two-column view)
+
+struct CompactPerformanceCard: View {
+    let performance: Performance
+    var height: CGFloat? = nil
+
+    private var stageColor: Color {
+        performance.stage == .mainStage ? AppColors.stageMain : AppColors.stageTheater
+    }
+
+    /// Determine layout based on available height
+    private var isCompact: Bool {
+        guard let h = height else { return false }
+        return h < 80
+    }
+
+    private var isVeryCompact: Bool {
+        guard let h = height else { return false }
+        return h < 50
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: isVeryCompact ? 2 : (isCompact ? 4 : 6)) {
+            // Time row
+            HStack(spacing: 4) {
+                Text(timeString(performance.startTime))
+                    .font(isVeryCompact ? .caption2 : .caption)
+                    .fontWeight(.bold)
+                    .foregroundColor(stageColor)
+
+                if !isVeryCompact {
+                    Text("-")
+                        .font(.caption2)
+                        .foregroundColor(AppColors.textTertiary)
+
+                    Text(timeString(performance.endTime))
+                        .font(.caption2)
+                        .foregroundColor(AppColors.textSecondary)
+                }
+
+                Spacer()
+
+                if performance.isHeadliner {
+                    Image(systemName: "star.fill")
+                        .font(.caption2)
+                        .foregroundColor(AppColors.primaryGold)
+                }
+            }
+
+            // Artist name
+            Text(performance.artist.name)
+                .font(isVeryCompact ? .caption : .subheadline)
+                .fontWeight(.semibold)
+                .lineLimit(isVeryCompact ? 1 : 2)
+                .minimumScaleFactor(0.7)
+
+            // Show additional info only if enough space
+            if !isVeryCompact {
+                // Tribute info
+                if let tribute = performance.artist.tributeTo {
+                    Text("Tribute aan \(tribute)")
+                        .font(.caption2)
+                        .foregroundColor(AppColors.textSecondary)
+                        .lineLimit(1)
+                }
+
+                // Genre (only if not compact)
+                if !isCompact {
+                    Text(performance.artist.genre)
+                        .font(.caption2)
+                        .foregroundColor(stageColor.opacity(0.8))
+                }
+            }
+
+            Spacer(minLength: 0)
+        }
+        .padding(isVeryCompact ? 6 : (isCompact ? 8 : 10))
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .frame(height: height)
+        .background(stageColor.opacity(0.15))
+        .cornerRadius(8)
+        .overlay(
+            RoundedRectangle(cornerRadius: 8)
+                .strokeBorder(stageColor.opacity(0.5), lineWidth: 1)
         )
     }
 
@@ -214,7 +585,7 @@ struct PerformanceDetailSheet: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") { dismiss() }
+                    Button("Klaar") { dismiss() }
                 }
             }
         }
@@ -253,7 +624,7 @@ struct PerformanceDetailSheet: View {
 
     private var timeSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Label("Performance Time", systemImage: "clock.fill")
+            Label("Speeltijd", systemImage: "clock.fill")
                 .font(.headline)
                 .foregroundColor(stageColor)
 
@@ -275,7 +646,7 @@ struct PerformanceDetailSheet: View {
                 Spacer()
 
                 VStack(alignment: .trailing) {
-                    Text("End")
+                    Text("Einde")
                         .font(.caption)
                         .foregroundColor(AppColors.textSecondary)
                     Text(timeString(performance.endTime))
@@ -287,7 +658,7 @@ struct PerformanceDetailSheet: View {
             .background(AppColors.secondaryBackground)
             .cornerRadius(12)
 
-            Text("\(performance.durationMinutes) minutes")
+            Text("\(performance.durationMinutes) minuten")
                 .font(.subheadline)
                 .foregroundColor(AppColors.textSecondary)
         }
@@ -295,12 +666,12 @@ struct PerformanceDetailSheet: View {
 
     private var descriptionSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Label("About", systemImage: "info.circle.fill")
+            Label("Over", systemImage: "info.circle.fill")
                 .font(.headline)
                 .foregroundColor(stageColor)
 
             if let tribute = performance.artist.tributeTo {
-                Text("Tribute to \(tribute)")
+                Text("Tribute aan \(tribute)")
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .foregroundColor(AppColors.primaryGold)
@@ -314,7 +685,7 @@ struct PerformanceDetailSheet: View {
 
     private var stageSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Label("Stage", systemImage: "music.note.house.fill")
+            Label("Podium", systemImage: "music.note.house.fill")
                 .font(.headline)
                 .foregroundColor(stageColor)
 
@@ -332,7 +703,7 @@ struct PerformanceDetailSheet: View {
                 Spacer()
 
                 VStack(alignment: .trailing) {
-                    Text("Capacity")
+                    Text("Capaciteit")
                         .font(.caption)
                         .foregroundColor(AppColors.textSecondary)
                     Text("\(performance.stage.capacity)")

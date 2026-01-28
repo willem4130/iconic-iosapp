@@ -2,7 +2,7 @@ import Foundation
 
 // MARK: - Stage Enum
 
-/// Festival stages
+/// Festival podia
 enum Stage: String, CaseIterable, Identifiable, Codable {
     case mainStage = "Main Stage"
     case theater = "Openluchttheater"
@@ -19,14 +19,14 @@ enum Stage: String, CaseIterable, Identifiable, Codable {
     var location: String {
         switch self {
         case .mainStage: return "Goffertpark"
-        case .theater: return "Openluchttheater area"
+        case .theater: return "Openluchttheater gebied"
         }
     }
 }
 
 // MARK: - Artist Model
 
-/// Artist/band performing at the festival
+/// Artiest/band die optreedt op het festival
 struct Artist: Identifiable, Codable, Hashable {
     let id: UUID
     let name: String
@@ -54,7 +54,7 @@ struct Artist: Identifiable, Codable, Hashable {
 
 // MARK: - Performance Model
 
-/// A single performance/set at the festival
+/// Een enkel optreden/set op het festival
 struct Performance: Identifiable, Codable, Hashable {
     let id: UUID
     let artist: Artist
@@ -92,28 +92,29 @@ struct Performance: Identifiable, Codable, Hashable {
 
 // MARK: - Festival Data
 
-/// Static festival data for Iconic 2026
+/// Statische festival data voor Iconic 2026
 enum FestivalData {
 
     // MARK: - Festival Info
 
     static let festivalName = "Iconic Festival 2026"
-    static let festivalDate = "Summer 2026"
+    static let festivalDate = "Zaterdag 9 mei 2026"
     static let festivalLocation = "Goffertpark, Nijmegen"
+    static let festivalTagline = "Live Tribute To Your Favorite Bands"
     static let festivalDescription = """
-    Iconic Festival is the ultimate tribute festival experience! \
-    Join us for an unforgettable day of music featuring the best tribute bands \
-    performing hits from legendary artists across two amazing stages.
+    Iconic Festival is dé ultieme tribute festival ervaring! \
+    Beleef een onvergetelijke dag vol muziek met de beste tributebands \
+    die hits spelen van legendarische artiesten op twee geweldige podia.
     """
 
     // MARK: - Date Helpers
 
-    /// Festival date (placeholder - adjust to actual date)
+    /// Festival datum: Zaterdag 9 mei 2026
     static var festivalDateComponents: DateComponents {
         var components = DateComponents()
         components.year = 2026
-        components.month = 7
-        components.day = 15 // Placeholder date
+        components.month = 5
+        components.day = 9
         return components
     }
 
@@ -124,37 +125,37 @@ enum FestivalData {
         Artist(
             name: "Beach Boys' Best",
             tributeTo: "The Beach Boys",
-            description: "Feel-good summer vibes with the best Beach Boys hits",
+            description: "Feel-good zomerse vibes met de beste Beach Boys hits",
             genre: "Surf Rock / Pop"
         ),
         Artist(
             name: "Coming on Strong",
             tributeTo: nil,
-            description: "High-energy rock performance",
+            description: "Energiek rock optreden",
             genre: "Rock"
         ),
         Artist(
             name: "The Cosmic Carnival",
             tributeTo: nil,
-            description: "A psychedelic journey through classic rock",
-            genre: "Psychedelic Rock"
+            description: "Een psychedelische reis door klassieke rock",
+            genre: "Psychedelische Rock"
         ),
         Artist(
             name: "Treasure",
             tributeTo: "Bruno Mars",
-            description: "The ultimate Bruno Mars tribute experience",
+            description: "De ultieme Bruno Mars tribute ervaring",
             genre: "Pop / R&B"
         ),
         Artist(
             name: "Donna's Hot Stuff",
             tributeTo: "Donna Summer",
-            description: "Disco queen tribute - dance the night away",
+            description: "Disco queen tribute - dans de nacht door",
             genre: "Disco"
         ),
         Artist(
             name: "Dirty Daddies",
             tributeTo: nil,
-            description: "Festival headliners with explosive energy",
+            description: "Festival headliners met explosieve energie",
             genre: "Rock / Party"
         ),
 
@@ -162,33 +163,33 @@ enum FestivalData {
         Artist(
             name: "ABBA GOLD Europe",
             tributeTo: "ABBA",
-            description: "Europe's premier ABBA tribute - Dancing Queen awaits!",
+            description: "Europa's premier ABBA tribute - Dancing Queen wacht op je!",
             genre: "Pop / Disco"
         ),
         Artist(
             name: "Urban Solitude",
             tributeTo: "Anouk",
-            description: "Powerful vocals paying tribute to Dutch rock icon Anouk",
+            description: "Krachtige vocalen als eerbetoon aan Nederlands rock-icoon Anouk",
             genre: "Rock / Pop"
         ),
         Artist(
             name: "Future Nostalgia",
             tributeTo: "Dua Lipa",
-            description: "Modern pop hits and dance anthems",
+            description: "Moderne pophits en dance anthems",
             genre: "Pop / Dance"
         ),
         Artist(
             name: "The Dutch Queen",
             tributeTo: "Queen",
-            description: "Legendary Queen tribute - Bohemian Rhapsody, We Will Rock You, and more!",
+            description: "Legendarische Queen tribute - Bohemian Rhapsody, We Will Rock You, en meer!",
             genre: "Rock"
         )
     ]
 
-    // MARK: - Timetable (Scenario #177 - Recommended)
+    // MARK: - Timetable (Scenario #177 - Aanbevolen)
 
-    /// Creates the full timetable for the festival
-    /// Using Scenario #177: Maximum overlap, both full 75-min sets
+    /// Maakt het volledige programma voor het festival
+    /// Gebruikt Scenario #177: Maximale overlap, beide volledige 75-min sets
     static func createTimetable() -> [Performance] {
         let calendar = Calendar.current
         var components = festivalDateComponents
@@ -204,7 +205,7 @@ enum FestivalData {
         let artistsByName = Dictionary(uniqueKeysWithValues: artists.map { ($0.name, $0) })
 
         return [
-            // Main Stage Schedule (Fixed)
+            // Main Stage Programma (Vast)
             Performance(
                 artist: artistsByName["Beach Boys' Best"]!,
                 stage: .mainStage,
@@ -243,7 +244,7 @@ enum FestivalData {
                 isHeadliner: true
             ),
 
-            // Theater Stage Schedule (Scenario #177)
+            // Theater Podium Programma (Scenario #177)
             Performance(
                 artist: artistsByName["ABBA GOLD Europe"]!,
                 stage: .theater,
@@ -274,13 +275,13 @@ enum FestivalData {
 
     // MARK: - Grouped Performances
 
-    /// Get performances grouped by stage
+    /// Optredens gegroepeerd per podium
     static func performancesByStage() -> [Stage: [Performance]] {
         let timetable = createTimetable()
         return Dictionary(grouping: timetable) { $0.stage }
     }
 
-    /// Get performances sorted by time
+    /// Optredens gesorteerd op tijd
     static func performancesByTime() -> [Performance] {
         createTimetable().sorted { $0.startTime < $1.startTime }
     }

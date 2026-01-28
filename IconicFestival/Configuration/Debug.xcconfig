@@ -1,6 +1,9 @@
 // Debug.xcconfig
 // Configuration settings for Debug builds
 
+// Include secrets (API keys) - Secrets.xcconfig should be in .gitignore
+#include? "Secrets.xcconfig"
+
 // Build Settings
 SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG
 ENABLE_TESTABILITY = YES

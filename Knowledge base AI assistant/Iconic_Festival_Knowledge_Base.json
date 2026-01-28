@@ -1,0 +1,539 @@
+{
+  "festival": {
+    "naam": "Iconic Festival",
+    "tagline": "Live Tribute To Your Favorite Bands",
+    "type": "Tribute band festival",
+    "stad": "Nijmegen",
+    "land": "Nederland"
+  },
+  "editie_2026": {
+    "datum": "2026-05-09",
+    "dag": "Zaterdag",
+    "locatie": {
+      "naam": "Goffertpark",
+      "adres": "Steinweglaan 2, 6532 AE Nijmegen",
+      "wijziging": "Verhuisd van Valkhofpark naar Goffertpark in 2026"
+    },
+    "tijden": {
+      "deuren_open": "13:00",
+      "start_programma": "14:00",
+      "einde": "00:00"
+    },
+    "lineup": [
+      {
+        "naam": "The Dirty Daddies",
+        "omschrijving": "In het wit geklede beste vrienden die al meer dan tien jaar optreden met onuitputtelijke passie, spektakel en vuurwerk. Een uniek fenomeen in het Nederlandse covercircuit.",
+        "rol": "Afsluiter/Headliner"
+      },
+      {
+        "naam": "Treasure",
+        "tribute_voor": "Bruno Mars",
+        "bijzonder": "Winnaar Tribute Battle of the Bands 2025",
+        "omschrijving": "Snel uitgegroeid tot dé vertolker van Bruno Mars' iconische hits"
+      },
+      {
+        "naam": "ABBA Gold Europe",
+        "tribute_voor": "ABBA",
+        "bijzonder": "Met voormalige cast Mamma Mia London",
+        "omschrijving": "Dé ultieme tribute band die de magie van ABBA naar het podium brengt"
+      },
+      {
+        "naam": "The Dutch Queen",
+        "tribute_voor": "Queen",
+        "stijl": "Akoestisch MTV Unplugged-stijl",
+        "omschrijving": "Vijf gerenommeerde topmusici met één gedeelde passie. De helft groeide op met Queen's muziek, de andere helft ontdekte recent de parels.",
+        "podium": "Openluchttheater"
+      },
+      {
+        "naam": "The Cosmic Carnival",
+        "tribute_voor": "Fleetwood Mac",
+        "omschrijving": "Neemt het publiek mee op een muzikale ontdekkingsreis door het wonderlijke universum van Fleetwood Mac"
+      },
+      {
+        "naam": "Coming on Strong",
+        "tribute_voor": "Golden Earring",
+        "omschrijving": "Houdt het onvergetelijke geluid van één van Nederlands grootste bands levend via een nieuwe muzikale formatie"
+      },
+      {
+        "naam": "Donna's Hot Stuff",
+        "tribute_voor": "Donna Summer",
+        "genres": ["Disco", "Soul"],
+        "bijzonder": "Winnaar The Tribute Battle of the Bands",
+        "omschrijving": "Dé ultieme tribute aan Donna Summer - een sizzling reis naar de gouden jaren van disco"
+      },
+      {
+        "naam": "Beach Boys's Best",
+        "tribute_voor": "Beach Boys",
+        "bijzonder": "Winnaar seizoen 5 van The Tribute Battle of the Bands",
+        "omschrijving": "Bekend om perfecte harmonieën, aanstekelijke energie en ongeëvenaard vakmanschap"
+      },
+      {
+        "naam": "Future Nostalgia",
+        "tribute_voor": "Dua Lipa",
+        "omschrijving": "Viert haar 2020 album Future Nostalgia, een mix van nostalgie met futuristische disco en dance-pop"
+      },
+      {
+        "naam": "Urban Solitude",
+        "tribute_voor": "Anouk",
+        "genre": "Nederlandse rock",
+        "omschrijving": "Meest authentieke Anouk tribute band, vangt de essentie van Anouks krachtige songs, stem en dynamische podiumaanwezigheid"
+      },
+      {
+        "naam": "Mystery Band",
+        "status": "Nog aan te kondigen"
+      }
+    ],
+    "nieuwe_features": [
+      "Grotere mainstage",
+      "Tweede podium bij Goffert Theater",
+      "Meer foodtrucks",
+      "Ruimer festivalterrein"
+    ]
+  },
+  "tickets": {
+    "prijzen": {
+      "early_bird": 37.50,
+      "groepsticket": 37.50,
+      "regulier": 39.50,
+      "late": 42.50,
+      "servicekosten": 1.00,
+      "valuta": "EUR"
+    },
+    "gratis": "Kinderen tot 12 jaar",
+    "speciale_tickets": [
+      "Gezinstickets (2 volwassenen + 2 kinderen 12-18 jaar)",
+      "Groepstickets (per 5 personen)"
+    ],
+    "verkoop": {
+      "platform": "Weeztix",
+      "website": "www.iconicfestival.nl",
+      "wederverkoop": "Ticketswap"
+    },
+    "beleid": {
+      "terugbetaling": false,
+      "wederverkoop_mogelijk": true,
+      "unieke_barcode": true,
+      "sealed_tickets": "Downloadbaar kort voor evenement"
+    }
+  },
+  "geschiedenis": {
+    "oprichting": 2019,
+    "oprichters": [
+      {
+        "naam": "Tinus Weijkamp",
+        "achtergrond": "Eigenaar van Mout Bierfestival en De Achtertuin Nijmegen"
+      },
+      {
+        "naam": "Willem van den Berg",
+        "achtergrond": "Programmeur Van Ouds Vierdaagseplein"
+      }
+    ],
+    "oorsprong": "Tinus en Willem leerden elkaar kennen in groep 3 op de basisschool in Ruurlo. Hun vriendschap van meer dan 25 jaar leidde tot dit eenmalige initiatief dat uitgroeide tot een jaarlijks festival.",
+    "edities": [
+      {
+        "jaar": 2019,
+        "editie": 1,
+        "datum": "2019-05-11",
+        "locatie": "Valkhofpark",
+        "bezoekers": "2000+",
+        "status": "Afgerond",
+        "lineup": [
+          {"naam": "Vipers", "tribute_voor": "Queen", "land": "Italië", "rol": "Headliner"},
+          {"naam": "Stones Sessions", "tribute_voor": "The Rolling Stones"},
+          {"naam": "BackAlive", "tribute_voor": "Pearl Jam"},
+          {"naam": "The Uplift Mofo Party Plan", "tribute_voor": "Red Hot Chili Peppers"},
+          {"naam": "Musest", "tribute_voor": "Muse"},
+          {"naam": "Back to Blondie", "tribute_voor": "Blondie", "bijzonder": "Nijmeegse band, opener"}
+        ]
+      },
+      {
+        "jaar": 2020,
+        "editie": null,
+        "datum": "2020-05-09",
+        "status": "Geannuleerd (COVID-19)",
+        "opmerking": "Lineup was al aangekondigd",
+        "geplande_lineup": [
+          {"naam": "HELP!", "tribute_voor": "The Beatles"},
+          {"naam": "Lenny Jay", "tribute_voor": "Michael Jackson", "land": "Brazilië"},
+          {"naam": "Bad Medicine", "tribute_voor": "Bon Jovi", "land": "Italië"},
+          {"naam": "In Your Honor", "tribute_voor": "Foo Fighters", "land": "België"},
+          {"naam": "reEditors", "tribute_voor": "Editors", "bijzonder": "Winnaar Battle of the Tributebands"},
+          {"naam": "The Policed", "tribute_voor": "The Police"},
+          {"naam": "Blaas of Glory", "bijzonder": "Hardrock met fanfare, eerder voorprogramma Metallica"},
+          {"naam": "Jonny Smokes", "tribute_voor": "Ed Sheeran"}
+        ]
+      },
+      {
+        "jaar": 2021,
+        "editie": 2,
+        "datum": "2021-09-18",
+        "locatie": "Valkhofpark",
+        "status": "Afgerond",
+        "opmerking": "Verplaatst van mei naar september vanwege COVID-19",
+        "lineup": [
+          {"naam": "HELP!", "tribute_voor": "The Beatles"},
+          {"naam": "Bad Medicine", "tribute_voor": "Bon Jovi"},
+          {"naam": "In Your Honor", "tribute_voor": "Foo Fighters"},
+          {"naam": "Policed", "tribute_voor": "The Police"},
+          {"naam": "Reeditors", "tribute_voor": "Editors"},
+          {"naam": "Jonny Smokes", "tribute_voor": "Ed Sheeran"},
+          {"naam": "Blaas of Glory"}
+        ]
+      },
+      {
+        "jaar": 2022,
+        "editie": 3,
+        "datum": "2022-05-07",
+        "locatie": "Valkhofpark",
+        "status": "Afgerond",
+        "ticket_prijs": "€12,50",
+        "lineup": [
+          {"naam": "HELP!", "tribute_voor": "The Beatles"},
+          {"naam": "Bad Medicine", "tribute_voor": "Bon Jovi"},
+          {"naam": "Lenny Jay", "tribute_voor": "Michael Jackson"},
+          {"naam": "In Your Honor", "tribute_voor": "Foo Fighters"},
+          {"naam": "Reeditors", "tribute_voor": "Editors"},
+          {"naam": "Policed", "tribute_voor": "The Police"},
+          {"naam": "Jonny Smokes", "tribute_voor": "Ed Sheeran"},
+          {"naam": "Blaas of Glory"}
+        ]
+      },
+      {
+        "jaar": 2023,
+        "editie": 4,
+        "datum": "2023-05-13",
+        "locatie": "Valkhofpark",
+        "status": "Afgerond",
+        "ticket_prijs": "€17,50",
+        "lineup": [
+          {"naam": "Queen Must Go On", "tribute_voor": "Queen", "rol": "Headliner", "bijzonder": "Nijmeegse band, winnaar Battle of the Bands 2022, speelde in Ziggo Dome"},
+          {"naam": "ABBA Gold Europe", "tribute_voor": "ABBA"},
+          {"naam": "The Scientists", "tribute_voor": "Coldplay"},
+          {"naam": "Rondje Doe Maar", "tribute_voor": "Doe Maar"},
+          {"naam": "The Glamrocks"},
+          {"naam": "Blaze of Glory"},
+          {"naam": "Jonny Smokes", "tribute_voor": "Ed Sheeran"}
+        ],
+        "extra": ["Terras Café De Plak", "Ray Elpee platenbeurs"]
+      },
+      {
+        "jaar": 2024,
+        "editie": 5,
+        "datum": "2024-05-10",
+        "datum_extra": "2024-05-11",
+        "locatie": "Valkhofpark",
+        "status": "Afgerond",
+        "bijzonder": "Eerste tweedaagse editie, volledig uitverkocht",
+        "lineup": [
+          {"naam": "Beatles tribute", "tribute_voor": "The Beatles"},
+          {"naam": "Blues Brothers tribute", "tribute_voor": "The Blues Brothers"},
+          {"naam": "Queen tribute", "tribute_voor": "Queen"},
+          {"naam": "Bruce Springsteen tribute", "tribute_voor": "Bruce Springsteen"},
+          {"naam": "Tina Turner tribute", "tribute_voor": "Tina Turner"}
+        ]
+      },
+      {
+        "jaar": 2025,
+        "editie": 6,
+        "datum": "2025-05-10",
+        "locatie": "Valkhofpark",
+        "status": "Afgerond",
+        "lineup": [
+          {"naam": "Queen Must Go On", "tribute_voor": "Queen"},
+          {"naam": "ACinDC", "tribute_voor": "AC/DC"},
+          {"naam": "Bee Gees Forever by MainCourse", "tribute_voor": "Bee Gees"},
+          {"naam": "The Chicago Funk", "tribute_voor": "Chicago"},
+          {"naam": "Golden Earring Undercover", "tribute_voor": "Golden Earring"},
+          {"naam": "Mooi Weer Op Straat"},
+          {"naam": "Mr. Jones & Just in Case"}
+        ],
+        "extra": ["4 meter hoge Freddy Mercury foto-installatie", "Living bench zitgedeelte"]
+      },
+      {
+        "jaar": 2026,
+        "editie": 7,
+        "datum": "2026-05-09",
+        "locatie": "Goffertpark",
+        "status": "Gepland",
+        "bijzonder": "Verhuizing naar Goffertpark, tweede podium"
+      }
+    ]
+  },
+  "bereikbaarheid": {
+    "auto": {
+      "navigatie": "Slotemaker de Bruïneweg",
+      "parkeren": "Beschikbaar, volg borden"
+    },
+    "openbaar_vervoer": {
+      "nijmegen_centraal": "30 minuten lopen",
+      "station_goffert": "15 minuten lopen"
+    },
+    "fiets": {
+      "fietsparkeren": "Groot weiland bij de Goffert",
+      "instructie": "Volg borden"
+    }
+  },
+  "toegankelijkheid": {
+    "rolstoeltoegang": {
+      "mainstage": true,
+      "openluchttheater": true,
+      "terrein": true
+    },
+    "mindervalidentoiletten": true,
+    "designated_viewing_area": "In overweging voor 2026",
+    "contact_vooraf": "Via WhatsApp op www.iconicfestival.nl"
+  },
+  "faciliteiten": {
+    "podia": {
+      "mainstage": "Alle tribute bands",
+      "klein_podium": "Support acts tussen hoofdacts",
+      "goffert_theater": "Tweede podium (nieuw in 2026)"
+    },
+    "betalen": {
+      "methoden": ["Pin", "Card"],
+      "contant": false
+    },
+    "horeca": {
+      "bars": "Meerdere grote bars",
+      "drankassortiment": ["Alcoholisch", "Alcoholvrij"],
+      "specials": "Cocktailbar",
+      "eten": "Diverse foodtrucks"
+    },
+    "voorzieningen": [
+      "Voldoende zitplaatsen",
+      "Toiletten",
+      "EHBO (Rode Kruis)",
+      "Beveiliging",
+      "Merchandisestand"
+    ],
+    "toegang": {
+      "in_en_uitlopen": true,
+      "polsbandje_nodig": true,
+      "procedure": "Vraag bij security"
+    }
+  },
+  "regels": {
+    "toegestaan": [
+      "Hervulbare waterflessen"
+    ],
+    "verboden": [
+      "Drugs",
+      "Wapens",
+      "Scherpe voorwerpen",
+      "Glas",
+      "Eigen eten en drinken (behalve water)"
+    ]
+  },
+  "weer": {
+    "doorgaan_bij_regen": true,
+    "overdekte_plekken": true,
+    "openluchttheater_overdekt": false,
+    "advies": "Het festival gaat bij vrijwel alle weersomstandigheden door. Breng geschikte kleding mee voor wisselend weer."
+  },
+  "fotografie": {
+    "persoonlijk_gebruik": true,
+    "professioneel": "Alleen met toestemming van de organisatie",
+    "contact": "info@iconicfestival.nl"
+  },
+  "doelgroep": {
+    "leeftijd": "Alle leeftijden",
+    "profiel": [
+      "Muziekliefhebbers",
+      "Nostalgiezoekers",
+      "Gezinnen",
+      "Jonge mensen",
+      "Oudere generaties"
+    ],
+    "sfeer": "Gezellig, enthousiast, meezingend publiek"
+  },
+  "online_presence": {
+    "website": "https://iconicfestival.nl",
+    "social_media": {
+      "instagram": {
+        "handle": "@iconic_festival",
+        "url": "https://www.instagram.com/iconic_festival/",
+        "volgers": 1513,
+        "volgend": 609,
+        "posts": 287
+      },
+      "facebook": {
+        "actief": true
+      },
+      "youtube": {
+        "actief": true
+      },
+      "whatsapp": {
+        "actief": true
+      },
+      "linktree": "https://linktr.ee/iconic_festival"
+    }
+  },
+  "contact": {
+    "adres": {
+      "straat": "De Kolk 13",
+      "stad": "Nijmegen",
+      "land": "Nederland"
+    },
+    "website": "www.iconicfestival.nl",
+    "perskit": "Beschikbaar via Google Drive"
+  },
+  "partners": {
+    "ticketing": [
+      "Weeztix",
+      "Ticketswap"
+    ],
+    "media": [
+      "Into Nijmegen",
+      "Brug Nijmegen",
+      "Festivalinfo.nl",
+      "UGenda",
+      "Nijmegen.nieuws.nl"
+    ]
+  },
+  "reviews": {
+    "2025": {
+      "bron": "UGenda.nl",
+      "rating": "Zeer positief",
+      "highlights": [
+        "Zeer goed georganiseerd",
+        "Bands waren zeer goed",
+        "Sfeer was leuk",
+        "Voldoende zitplekken, eetmogelijkheden en toiletten",
+        "Publiek extreem enthousiast",
+        "Eén van de beste manieren om favoriete muziek live te horen"
+      ]
+    }
+  },
+  "unique_selling_points": [
+    "Beste internationale tribute acts",
+    "Diverse line-up (jaren '60 - heden)",
+    "Familie-vriendelijk met gratis toegang kinderen tot 12",
+    "Flexibele toegang (in- en uitlopen mogelijk)",
+    "Betaalbaar vanaf €37,50",
+    "Grotere locatie met tweede podium (2026)",
+    "7 edities ervaring sinds 2019",
+    "40+ verschillende tribute acts door de jaren heen",
+    "Intieme en overzichtelijke setting"
+  ],
+  "feiten_cijfers": {
+    "opgericht": 2019,
+    "editie_2026": 7,
+    "aantal_bands_2026": 11,
+    "bezoekers_2019": "2000+",
+    "duur_uren": 11,
+    "traditie": "Mei (meestal tweede weekend)",
+    "gratis_leeftijd": "Tot 12 jaar",
+    "totaal_unieke_tribute_acts": "40+",
+    "iconische_artiesten_geeerd": ["Queen", "ABBA", "The Beatles", "Bon Jovi", "Foo Fighters", "Michael Jackson", "Ed Sheeran", "The Police", "Editors", "Rolling Stones", "Pearl Jam", "Red Hot Chili Peppers", "Muse", "Coldplay", "Doe Maar", "Blues Brothers", "Bruce Springsteen", "Tina Turner", "AC/DC", "Bee Gees", "Chicago", "Golden Earring", "Bruno Mars", "Fleetwood Mac", "Donna Summer", "Beach Boys", "Dua Lipa", "Anouk"]
+  },
+  "faq": [
+    {
+      "vraag": "Wat zijn Sealed Tickets?",
+      "antwoord": "Sealed tickets zijn tickets die pas kort voor het evenement downloadbaar zijn. De tickets zijn in je bezit, maar zijn pas vlak voor Iconic Festival begint te downloaden. Je kunt sealed tickets nog steeds doorverkopen via Ticketswap voordat je ze downloadt."
+    },
+    {
+      "vraag": "Hoeveel kost een ticket?",
+      "antwoord": "Prijzen variëren van €37,50 (Early Bird/Groep) tot €42,50 (Late). Alle prijzen zijn exclusief €1 servicekosten. Kinderen tot 12 jaar hebben gratis toegang."
+    },
+    {
+      "vraag": "Hoe laat begint en eindigt het festival?",
+      "antwoord": "Deuren open om 13:00 uur, programmering start om 14:00 uur, en het festival eindigt om 00:00 uur (middernacht)."
+    },
+    {
+      "vraag": "Mag ik in- en uitlopen?",
+      "antwoord": "Ja! Vraag bij de uitgangen aan de security om een polsbandje, dan kun je terugkeren naar het festivalterrein."
+    },
+    {
+      "vraag": "Kan ik contant betalen?",
+      "antwoord": "Nee, op het hele terrein kan alleen met pin/card worden betaald (Visa, Mastercard, American Express). Geen contant geld."
+    },
+    {
+      "vraag": "Mag ik eigen eten en drinken meenemen?",
+      "antwoord": "Nee, met uitzondering van waterflessen. Er zijn diverse foodtrucks en bars aanwezig."
+    },
+    {
+      "vraag": "Is het festival geschikt voor kinderen?",
+      "antwoord": "Ja! Het festival is familie-vriendelijk. Kinderen tot 12 jaar hebben gratis toegang. Er zijn gezinstickets beschikbaar voor 2 volwassenen + 2 kinderen onder 18."
+    },
+    {
+      "vraag": "Welke artiesten treden op in 2026?",
+      "antwoord": "11 acts waaronder ABBA Gold Europe, The Dutch Queen (Queen), Treasure (Bruno Mars), The Cosmic Carnival (Fleetwood Mac), Coming on Strong (Golden Earring), Donna's Hot Stuff (Donna Summer), Beach Boys's Best, Future Nostalgia (Dua Lipa), Urban Solitude (Anouk), The Dirty Daddies als afsluiter, en een Mystery Band die nog wordt aangekondigd."
+    },
+    {
+      "vraag": "Waarom verhuist het festival naar Goffertpark?",
+      "antwoord": "Na succesvolle jaren in Valkhofpark verhuist het festival naar de grotere locatie Goffertpark om meer ruimte te bieden, inclusief een grotere mainstage en een tweede podium bij het Goffert Theater."
+    },
+    {
+      "vraag": "Wat is het concept van Iconic Festival?",
+      "antwoord": "Iconic Festival viert de grootste muziekiconen met de beste tribute acts die de magie van legendarische artiesten weer tot leven brengen. Een reis door decennia aan iconische muziek."
+    },
+    {
+      "vraag": "Kan ik mijn ticket terugsturen als ik niet kan?",
+      "antwoord": "Tickets zijn niet terugbetaalbaar, maar kunnen wel veilig worden doorverkocht via Ticketswap."
+    },
+    {
+      "vraag": "Hoe kom ik bij Goffertpark?",
+      "antwoord": "Met de auto via Slotemaker de Bruïneweg, met OV vanaf Nijmegen Centraal (30 min lopen) of Station Goffert (15 min lopen), of met de fiets naar de fietsparkeerterreinen. Je kunt ook een OV-fiets huren bij het station (€3,85)."
+    },
+    {
+      "vraag": "Ik ben mijn ticket kwijt, wat nu?",
+      "antwoord": "Check je bankafschrift voor de Weeztix betaling. Zoek het 16-karakter betaal-ID in de transactiedetails (of PayPal factuurnummer). Voer dit ID in op weeztix.com/nl/search om je tickets opnieuw te downloaden."
+    },
+    {
+      "vraag": "Wat mag ik niet meenemen?",
+      "antwoord": "Verboden zijn: drugs, wapens, scherpe/harde voorwerpen, glas en vloeistoffen. Twijfel je over een item? Mail naar info@iconicfestival.nl"
+    },
+    {
+      "vraag": "Is er EHBO aanwezig?",
+      "antwoord": "Ja, het Rode Kruis is aanwezig tijdens alle optredens."
+    },
+    {
+      "vraag": "Hoe werkt het bekersysteem?",
+      "antwoord": "Bij binnenkomst krijg je een recycle token. Je ruilt deze voor een beker bij je eerste drankje. Lever je lege beker in voor je volgende drankje. Een verloren beker kost vervangingskosten."
+    },
+    {
+      "vraag": "Wat als ik iets kwijtraak?",
+      "antwoord": "Gevonden voorwerpen worden de dag na het festival overgedragen aan de lokale politie. Neem contact op met de politie voor navraag."
+    },
+    {
+      "vraag": "Hoe lang bestaat Iconic Festival al?",
+      "antwoord": "Iconic Festival is opgericht in 2019 door Tinus Weijkamp en Willem van den Berg. 2026 is de 7e editie (2020 werd geannuleerd vanwege COVID-19)."
+    },
+    {
+      "vraag": "Welke bands hebben er in het verleden gespeeld?",
+      "antwoord": "Meer dan 40 tribute acts door de jaren heen, waaronder tributes aan Queen, ABBA, The Beatles, Bon Jovi, Foo Fighters, Michael Jackson, The Police, Rolling Stones, Pearl Jam, Red Hot Chili Peppers, Muse, Coldplay, AC/DC, Bee Gees, Golden Earring, Bruce Springsteen, Tina Turner en vele anderen."
+    },
+    {
+      "vraag": "Is er rolstoeltoegang?",
+      "antwoord": "Ja, beide podia (Mainstage en Openluchttheater) en het festivalterrein zijn rolstoeltoegankelijk. Er zijn ook mindervalidentoiletten aanwezig. Voor vragen over toegankelijkheid kun je vooraf contact opnemen via WhatsApp (zie www.iconicfestival.nl)."
+    },
+    {
+      "vraag": "Gaat het festival door bij slecht weer?",
+      "antwoord": "Ja, het festival gaat bij vrijwel alle weersomstandigheden door. Er zijn overdekte plekken op het terrein. Het Openluchttheater is niet overdekt. Breng geschikte kleding mee voor wisselend weer."
+    },
+    {
+      "vraag": "Mag ik foto's en video's maken?",
+      "antwoord": "Ja, foto's en video's voor persoonlijk gebruik zijn toegestaan. Voor professionele opnames is vooraf toestemming van de organisatie nodig via info@iconicfestival.nl."
+    }
+  ],
+  "metadata": {
+    "document_versie": "2.1",
+    "laatst_bijgewerkt": "2026-01-28",
+    "taal": "nl",
+    "bronnen_geverifieerd": true,
+    "bronnen": [
+      "iconicfestival.nl",
+      "intonijmegen.com",
+      "brugnijmegen.nl",
+      "nijmegen.nieuws.nl",
+      "festivalinfo.nl"
+    ],
+    "geschikt_voor": [
+      "FAQ systemen",
+      "Chatbots",
+      "Customer service AI",
+      "LLM knowledge bases",
+      "Voice assistants"
+    ]
+  }
+}

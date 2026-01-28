@@ -55,12 +55,18 @@ extension View {
 extension Route: Identifiable {
     var id: String {
         switch self {
-        case .detail(let item):
-            return "detail-\(item.id)"
+        case .performanceDetail(let performance):
+            return "performance-\(performance.id)"
+        case .artistDetail(let artist):
+            return "artist-\(artist.id)"
+        case .faqDetail(let item):
+            return "faq-\(item.id)"
         case .profile:
             return "profile"
         case .about:
             return "about"
+        case .notifications:
+            return "notifications"
         }
     }
 }

@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Settings screen for Iconic Festival app
+/// Instellingen scherm voor Iconic Festival app
 struct SettingsView: View {
 
     // MARK: - Properties
@@ -14,12 +14,13 @@ struct SettingsView: View {
     var body: some View {
         List {
             festivalInfoSection
+            aiSection
             appearanceSection
             notificationsSection
             aboutSection
             debugSection
         }
-        .navigationTitle("More")
+        .navigationTitle("Meer")
         .listStyle(.insetGrouped)
     }
 
@@ -27,6 +28,17 @@ struct SettingsView: View {
 
     private var festivalInfoSection: some View {
         Section {
+            // Logo
+            HStack {
+                Spacer()
+                Image("IconicLogo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 50)
+                Spacer()
+            }
+            .listRowBackground(AppColors.primaryDark)
+
             VStack(alignment: .leading, spacing: 8) {
                 Text(FestivalData.festivalName)
                     .font(.headline)
@@ -43,20 +55,45 @@ struct SettingsView: View {
             .padding(.vertical, 4)
 
             Link(destination: URL(string: FestivalInfo.contact.website)!) {
-                Label("Visit Website", systemImage: "safari")
+                Label("Bezoek Website", systemImage: "safari")
             }
 
             Link(destination: URL(string: "mailto:\(FestivalInfo.contact.email)")!) {
-                Label("Contact Us", systemImage: "envelope")
+                Label("Neem Contact Op", systemImage: "envelope")
             }
         } header: {
             Text("Festival")
         }
     }
 
+    private var aiSection: some View {
+        Section {
+            NavigationLink {
+                AISettingsView()
+            } label: {
+                HStack {
+                    Label("AI Assistent", systemImage: "sparkles")
+                    Spacer()
+                    if ClaudeService.shared.isConfigured {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundColor(.green)
+                    } else {
+                        Text("Niet geconfigureerd")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
+            }
+        } header: {
+            Text("Vraag AI")
+        } footer: {
+            Text("Configureer je Claude API key voor slimmere antwoorden in de chat.")
+        }
+    }
+
     private var appearanceSection: some View {
-        Section("Appearance") {
-            Picker("Theme", selection: $themeManager.currentMode) {
+        Section("Weergave") {
+            Picker("Thema", selection: $themeManager.currentMode) {
                 ForEach(ThemeMode.allCases) { mode in
                     Label(mode.displayName, systemImage: mode.icon)
                         .tag(mode)
@@ -67,26 +104,26 @@ struct SettingsView: View {
     }
 
     private var notificationsSection: some View {
-        Section("Notifications") {
-            Toggle("Enable Notifications", isOn: $notificationsEnabled)
+        Section("Meldingen") {
+            Toggle("Meldingen Inschakelen", isOn: $notificationsEnabled)
 
             NavigationLink {
                 NotificationsSettingsView()
             } label: {
-                Label("Notification Settings", systemImage: "bell.badge")
+                Label("Meldinginstellingen", systemImage: "bell.badge")
             }
         }
     }
 
     private var aboutSection: some View {
-        Section("About") {
+        Section("Over") {
             NavigationLink {
                 AboutView()
             } label: {
-                Label("About This App", systemImage: "info.circle")
+                Label("Over Deze App", systemImage: "info.circle")
             }
 
-            LabeledContent("Version") {
+            LabeledContent("Versie") {
                 Text(appVersion)
             }
 
@@ -96,11 +133,11 @@ struct SettingsView: View {
 
             // Social links
             Link(destination: URL(string: "https://instagram.com/iconicfestival")!) {
-                Label("Follow on Instagram", systemImage: "camera")
+                Label("Volg op Instagram", systemImage: "camera")
             }
 
             Link(destination: URL(string: "https://facebook.com/IconicFestivalNL")!) {
-                Label("Follow on Facebook", systemImage: "hand.thumbsup")
+                Label("Volg op Facebook", systemImage: "hand.thumbsup")
             }
         }
     }
@@ -109,12 +146,12 @@ struct SettingsView: View {
     private var debugSection: some View {
         #if DEBUG
         Section("Debug") {
-            LabeledContent("Environment") {
+            LabeledContent("Omgeving") {
                 Text(AppEnvironment.current.name)
                     .foregroundStyle(.secondary)
             }
 
-            Button("Clear All Data", role: .destructive) {
+            Button("Alle Data Wissen", role: .destructive) {
                 clearAllData()
             }
         }
@@ -138,7 +175,7 @@ struct SettingsView: View {
         // Clear Keychain
         try? KeychainManager().deleteAll()
 
-        Log.warning("All app data cleared")
+        Log.warning("Alle app data gewist")
     }
 }
 

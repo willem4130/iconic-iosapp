@@ -56,6 +56,10 @@
 		EF927D7F7D4398F159D831CF /* Injected.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C520592D9893EC50905F00A /* Injected.swift */; };
 		F1FD7A6CB927D52CD4EF8243 /* CachedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4274702644854F477452497F /* CachedAsyncImage.swift */; };
 		F484E01C2EF952963EC23E1E /* Task+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CD2D58E299F3671A5EAA10 /* Task+Extensions.swift */; };
+		KB001234567890ABCDEF0001 /* KnowledgeBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = KB001234567890ABCDEF0002 /* KnowledgeBase.swift */; };
+		KB001234567890ABCDEF0003 /* Iconic_Festival_Knowledge_Base.json in Resources */ = {isa = PBXBuildFile; fileRef = KB001234567890ABCDEF0004 /* Iconic_Festival_Knowledge_Base.json */; };
+		CLAUDE00000000000000001 /* ClaudeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CLAUDE00000000000000002 /* ClaudeService.swift */; };
+		CLAUDE00000000000000003 /* AISettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CLAUDE00000000000000004 /* AISettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +138,10 @@
 		EC6D6B6E7D1EA6014B2E5F4E /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		EED729B6CB093C02A799C907 /* KeychainManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManagerTests.swift; sourceTree = "<group>"; };
 		F99679EABE3DA4DD037B1A1A /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		KB001234567890ABCDEF0002 /* KnowledgeBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KnowledgeBase.swift; sourceTree = "<group>"; };
+		KB001234567890ABCDEF0004 /* Iconic_Festival_Knowledge_Base.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Iconic_Festival_Knowledge_Base.json; sourceTree = "<group>"; };
+		CLAUDE00000000000000002 /* ClaudeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeService.swift; sourceTree = "<group>"; };
+		CLAUDE00000000000000004 /* AISettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -198,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				DA33ED2CE45ED99CFEB43980 /* Assets.xcassets */,
+				KB001234567890ABCDEF0004 /* Iconic_Festival_Knowledge_Base.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -371,6 +380,7 @@
 			isa = PBXGroup;
 			children = (
 				0545F9D054BEF5EB2FCB17F0 /* AuthService.swift */,
+				CLAUDE00000000000000002 /* ClaudeService.swift */,
 				F99679EABE3DA4DD037B1A1A /* NotificationService.swift */,
 			);
 			path = Services;
@@ -423,6 +433,7 @@
 			isa = PBXGroup;
 			children = (
 				24A7AA77D9A3C3127AB9DE95 /* AboutView.swift */,
+				CLAUDE00000000000000004 /* AISettingsView.swift */,
 				BB8C59017A0DD1AD4516C1F5 /* ProfileView.swift */,
 				0D68811DBE1D55ECEF40FA99 /* SettingsView.swift */,
 			);
@@ -444,6 +455,7 @@
 			isa = PBXGroup;
 			children = (
 				CC4F55CCED1A09515469D724 /* FestivalInfo.swift */,
+				KB001234567890ABCDEF0002 /* KnowledgeBase.swift */,
 				3ED8E2203FEEF13EB274293F /* SwiftDataModels.swift */,
 				CA6FF32811F7C50491397D7F /* TimetableData.swift */,
 			);
@@ -553,6 +565,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				595C52D350E7722128F301C7 /* Assets.xcassets in Resources */,
+				KB001234567890ABCDEF0003 /* Iconic_Festival_Knowledge_Base.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -639,6 +652,9 @@
 				6D411C8F3F5EA1C80742FA34 /* TimetableView.swift in Sources */,
 				AA5F1ECAFDEDD1ECD95E0FD5 /* UserDefaultsManager.swift in Sources */,
 				0A96A972C3CC3BE9A1870BE8 /* View+Extensions.swift in Sources */,
+				KB001234567890ABCDEF0001 /* KnowledgeBase.swift in Sources */,
+				CLAUDE00000000000000001 /* ClaudeService.swift in Sources */,
+				CLAUDE00000000000000003 /* AISettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

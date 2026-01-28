@@ -24,7 +24,7 @@ final class Router: ObservableObject {
     // MARK: - Navigation Methods
 
     /// Push a route onto the current navigation stack
-    func push(_ route: Route, on tab: Tab = .timetable) {
+    func push(_ route: Route, on tab: AppTab = .timetable) {
         switch tab {
         case .timetable:
             timetablePath.append(route)
@@ -38,7 +38,7 @@ final class Router: ObservableObject {
     }
 
     /// Pop the top view from the current navigation stack
-    func pop(on tab: Tab = .timetable) {
+    func pop(on tab: AppTab = .timetable) {
         switch tab {
         case .timetable:
             guard !timetablePath.isEmpty else { return }
@@ -55,7 +55,7 @@ final class Router: ObservableObject {
     }
 
     /// Pop to root of the current navigation stack
-    func popToRoot(on tab: Tab = .timetable) {
+    func popToRoot(on tab: AppTab = .timetable) {
         switch tab {
         case .timetable:
             timetablePath = NavigationPath()
@@ -166,15 +166,15 @@ struct NotificationsSettingsView: View {
 
     var body: some View {
         List {
-            Section("Performance Reminders") {
-                Toggle("Notify before performances", isOn: $notifyBefore)
-                Toggle("Notify for favorite artists only", isOn: $notifyFavorites)
+            Section("Herinneringen") {
+                Toggle("Herinnering voor optredens", isOn: $notifyBefore)
+                Toggle("Alleen voor favoriete artiesten", isOn: $notifyFavorites)
             }
 
-            Section(footer: Text("Notifications help you never miss your favorite acts!")) {
+            Section(footer: Text("Meldingen helpen je om nooit je favoriete acts te missen!")) {
                 EmptyView()
             }
         }
-        .navigationTitle("Notifications")
+        .navigationTitle("Meldingen")
     }
 }

@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Festival information view with FAQ, venue info, and contact details
+/// Festival informatie weergave met FAQ, locatie info en contact
 struct InfoView: View {
 
     // MARK: - State
@@ -14,11 +14,14 @@ struct InfoView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
+                // Logo header
+                logoHeader
+
                 // Section picker
                 sectionPicker
 
                 // Content
-                ScrollView {
+                ScrollView(showsIndicators: true) {
                     switch selectedSection {
                     case .faq:
                         faqContent
@@ -28,6 +31,7 @@ struct InfoView: View {
                         contactContent
                     }
                 }
+                .scrollIndicators(.visible)
             }
             .background(AppColors.background)
             .navigationTitle("Festival Info")
@@ -35,10 +39,25 @@ struct InfoView: View {
         }
     }
 
+    // MARK: - Logo Header
+
+    private var logoHeader: some View {
+        HStack {
+            Spacer()
+            Image("IconicLogo")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 60)
+            Spacer()
+        }
+        .padding(.vertical, 8)
+        .background(AppColors.primaryDark)
+    }
+
     // MARK: - Section Picker
 
     private var sectionPicker: some View {
-        Picker("Section", selection: $selectedSection) {
+        Picker("Sectie", selection: $selectedSection) {
             ForEach(InfoSection.allCases) { section in
                 Label(section.rawValue, systemImage: section.icon)
                     .tag(section)
@@ -57,7 +76,7 @@ struct InfoView: View {
             HStack {
                 Image(systemName: "magnifyingglass")
                     .foregroundColor(AppColors.textTertiary)
-                TextField("Search FAQ...", text: $searchText)
+                TextField("Zoek in FAQ...", text: $searchText)
             }
             .padding()
             .background(AppColors.secondaryBackground)
@@ -118,35 +137,35 @@ struct InfoView: View {
         LazyVStack(spacing: 16) {
             // Address card
             infoCard(
-                title: "Venue Address",
+                title: "Locatie",
                 icon: "mappin.circle.fill",
                 content: FestivalInfo.venueAddress
             )
 
             // Opening hours
             infoCard(
-                title: "Opening Hours",
+                title: "Openingstijden",
                 icon: "clock.fill",
                 content: FestivalInfo.openingHours
             )
 
             // Public transport
             infoCard(
-                title: "Public Transport",
+                title: "Openbaar Vervoer",
                 icon: "bus.fill",
                 content: FestivalInfo.publicTransportInfo
             )
 
             // Parking
             infoCard(
-                title: "Parking",
+                title: "Parkeren",
                 icon: "car.fill",
                 content: FestivalInfo.parkingInfo
             )
 
             // Map placeholder
             VStack(alignment: .leading, spacing: 8) {
-                Label("Location", systemImage: "map.fill")
+                Label("Plattegrond", systemImage: "map.fill")
                     .font(.headline)
 
                 ZStack {
@@ -158,7 +177,7 @@ struct InfoView: View {
                         Image(systemName: "map")
                             .font(.largeTitle)
                             .foregroundColor(AppColors.primaryGold)
-                        Text("Map coming soon")
+                        Text("Plattegrond binnenkort beschikbaar")
                             .foregroundColor(AppColors.textSecondary)
                     }
                 }
@@ -174,14 +193,14 @@ struct InfoView: View {
         LazyVStack(spacing: 16) {
             // General contact
             contactCard(
-                title: "General Inquiries",
+                title: "Algemene Vragen",
                 icon: "envelope.fill",
                 value: FestivalInfo.contact.email,
                 action: "mailto:\(FestivalInfo.contact.email)"
             )
 
             contactCard(
-                title: "Phone",
+                title: "Telefoon",
                 icon: "phone.fill",
                 value: FestivalInfo.contact.phone,
                 action: "tel:\(FestivalInfo.contact.phone.replacingOccurrences(of: " ", with: ""))"
@@ -196,7 +215,7 @@ struct InfoView: View {
 
             // Social media
             VStack(alignment: .leading, spacing: 12) {
-                Text("Follow Us")
+                Text("Volg Ons")
                     .font(.headline)
                     .padding(.horizontal)
 
@@ -209,7 +228,7 @@ struct InfoView: View {
 
             // Emergency
             VStack(alignment: .leading, spacing: 8) {
-                Label("Emergency", systemImage: "exclamationmark.triangle.fill")
+                Label("Noodgevallen", systemImage: "exclamationmark.triangle.fill")
                     .font(.headline)
                     .foregroundColor(AppColors.error)
                     .padding(.horizontal)
@@ -221,7 +240,7 @@ struct InfoView: View {
                 } label: {
                     HStack {
                         Image(systemName: "phone.badge.waveform.fill")
-                        Text("Emergency: \(FestivalInfo.contact.emergencyPhone)")
+                        Text("Noodgevallen: \(FestivalInfo.contact.emergencyPhone)")
                             .fontWeight(.semibold)
                     }
                     .foregroundColor(.white)
@@ -307,7 +326,7 @@ struct InfoView: View {
 
 enum InfoSection: String, CaseIterable, Identifiable {
     case faq = "FAQ"
-    case venue = "Venue"
+    case venue = "Locatie"
     case contact = "Contact"
 
     var id: String { rawValue }
