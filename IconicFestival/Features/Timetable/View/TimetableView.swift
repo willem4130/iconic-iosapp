@@ -5,13 +5,6 @@ struct TimetableView: View {
 
     // MARK: - State
 
-    enum ViewMode: String, CaseIterable {
-        case integraal = "Integraal"
-        case mainStage = "Main Stage"
-        case theater = "Openluchttheater"
-    }
-
-    @State private var selectedViewMode: ViewMode = .integraal
     @State private var selectedPerformance: Performance?
 
     // MARK: - Body
@@ -22,15 +15,11 @@ struct TimetableView: View {
                 // Logo header
                 logoHeader
 
-                // View mode selector
-                viewModePicker
-
-                // Performance list
-                performanceList
+                // Timetable
+                integraalTwoColumnView
             }
             .background(AppColors.background)
-            .navigationTitle("Programma")
-            .navigationBarTitleDisplayMode(.large)
+            .navigationBarHidden(true)
             .sheet(item: $selectedPerformance) { performance in
                 PerformanceDetailSheet(performance: performance)
             }
@@ -40,93 +29,61 @@ struct TimetableView: View {
     // MARK: - Logo Header
 
     private var logoHeader: some View {
-        VStack(spacing: 4) {
+        HStack(spacing: 12) {
             Image("IconicLogo")
                 .resizable()
                 .scaledToFit()
-                .frame(height: 60)
+                .frame(height: 36)
 
-            // Festival date
             Text(FestivalData.festivalDate)
                 .font(.subheadline)
                 .fontWeight(.medium)
                 .foregroundColor(AppColors.primaryGold)
 
-            // Social links
-            HStack(spacing: 24) {
+            Spacer()
+
+            // Social links with labels
+            HStack(spacing: 12) {
                 Link(destination: URL(string: FestivalInfo.contact.instagramURL)!) {
-                    Image(systemName: "camera.fill")
-                        .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.8))
+                    VStack(spacing: 2) {
+                        Image(systemName: "camera.fill")
+                            .font(.caption)
+                        Text("Instagram")
+                            .font(.system(size: 8))
+                    }
+                    .foregroundColor(.white.opacity(0.8))
                 }
 
                 Link(destination: URL(string: FestivalInfo.contact.facebookURL)!) {
-                    Image(systemName: "hand.thumbsup.fill")
-                        .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.8))
+                    VStack(spacing: 2) {
+                        Image(systemName: "hand.thumbsup.fill")
+                            .font(.caption)
+                        Text("Facebook")
+                            .font(.system(size: 8))
+                    }
+                    .foregroundColor(.white.opacity(0.8))
                 }
 
                 Link(destination: URL(string: FestivalInfo.contact.website)!) {
-                    Image(systemName: "globe")
-                        .font(.subheadline)
-                        .foregroundColor(.white.opacity(0.8))
+                    VStack(spacing: 2) {
+                        Image(systemName: "globe")
+                            .font(.caption)
+                        Text("Website")
+                            .font(.system(size: 8))
+                    }
+                    .foregroundColor(.white.opacity(0.8))
                 }
             }
-            .padding(.top, 4)
         }
-        .frame(maxWidth: .infinity)
+        .padding(.horizontal)
         .padding(.vertical, 8)
         .background(AppColors.primaryDark)
     }
 
-    // MARK: - View Mode Picker
+    // MARK: - Timetable View (Time-Aligned Grid)
 
-    private var viewModePicker: some View {
-        HStack(spacing: 0) {
-            ForEach(ViewMode.allCases, id: \.self) { mode in
-                Button {
-                    withAnimation(.easeInOut(duration: 0.2)) {
-                        selectedViewMode = mode
-                    }
-                } label: {
-                    Text(mode.rawValue)
-                        .font(.subheadline)
-                        .fontWeight(selectedViewMode == mode ? .semibold : .regular)
-                        .foregroundColor(selectedViewMode == mode ? AppColors.primaryDark : .white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 10)
-                        .background(
-                            selectedViewMode == mode
-                                ? AppColors.primaryWhite
-                                : Color.white.opacity(0.15)
-                        )
-                }
-            }
-        }
-        .cornerRadius(8)
-        .padding(.horizontal)
-        .padding(.vertical, 12)
-        .background(AppColors.primaryDark)
-    }
-
-    // MARK: - Performance List
-
-    private var performanceList: some View {
-        Group {
-            if selectedViewMode == .integraal {
-                // Two-column layout for Integraal view
-                integraalTwoColumnView
-            } else {
-                // Single column for individual stage views
-                singleStageView
-            }
-        }
-    }
-
-    // MARK: - Integraal Two-Column View (Time-Aligned Grid)
-
-    /// Height per 15-minute block in points
-    private let minuteHeight: CGFloat = 4.0
+    /// Height per minute in points (ultra-compact: 1.2, was 4.0)
+    private let minuteHeight: CGFloat = 1.2
 
     private var integraalTwoColumnView: some View {
         let mainStagePerformances = (FestivalData.performancesByStage()[.mainStage] ?? []).sorted { $0.startTime < $1.startTime }
@@ -300,37 +257,6 @@ struct TimetableView: View {
             }
     }
 
-    // MARK: - Single Stage View
-
-    private var singleStageView: some View {
-        let performances: [Performance]
-
-        switch selectedViewMode {
-        case .integraal:
-            performances = []
-        case .mainStage:
-            performances = (FestivalData.performancesByStage()[.mainStage] ?? []).sorted { $0.startTime < $1.startTime }
-        case .theater:
-            performances = (FestivalData.performancesByStage()[.theater] ?? []).sorted { $0.startTime < $1.startTime }
-        }
-
-        return ScrollView(.vertical, showsIndicators: true) {
-            LazyVStack(spacing: 12) {
-                stageInfoHeader
-
-                ForEach(performances) { performance in
-                    PerformanceCard(performance: performance, showStage: false)
-                        .onTapGesture {
-                            selectedPerformance = performance
-                        }
-                        .id(performance.id)
-                }
-            }
-            .padding()
-        }
-        .scrollIndicators(.visible)
-    }
-
     // MARK: - Stage Column Header
 
     private func stageColumnHeader(stage: Stage) -> some View {
@@ -347,12 +273,12 @@ struct TimetableView: View {
         .padding(.bottom, 4)
     }
 
-    // MARK: - Integraal Header
+    // MARK: - Timetable Header
 
     private var integraalHeader: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Volledig Programma")
+                Text("Timetable")
                     .font(.headline)
                     .foregroundColor(AppColors.primaryGold)
 
@@ -372,137 +298,9 @@ struct TimetableView: View {
         .cornerRadius(12)
     }
 
-    // MARK: - Stage Info Header
-
-    private var stageInfoHeader: some View {
-        let stage: Stage = selectedViewMode == .mainStage ? .mainStage : .theater
-
-        return HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(stage.rawValue)
-                    .font(.headline)
-                    .foregroundColor(stageColor(for: stage))
-
-                Text(stage.location)
-                    .font(.caption)
-                    .foregroundColor(AppColors.textSecondary)
-            }
-
-            Spacer()
-
-            Image(systemName: "music.note.house.fill")
-                .font(.title2)
-                .foregroundColor(stageColor(for: stage))
-        }
-        .padding()
-        .background(stageColor(for: stage).opacity(0.1))
-        .cornerRadius(12)
-    }
-
-    private func stageColor(for stage: Stage) -> Color {
-        stage == .mainStage ? AppColors.stageMain : AppColors.stageTheater
-    }
 }
 
-// MARK: - Performance Card
-
-struct PerformanceCard: View {
-    let performance: Performance
-    var showStage: Bool = false
-
-    private var stageColor: Color {
-        performance.stage == .mainStage ? AppColors.stageMain : AppColors.stageTheater
-    }
-
-    var body: some View {
-        HStack(spacing: 16) {
-            // Time column
-            VStack(alignment: .center, spacing: 2) {
-                Text(timeString(performance.startTime))
-                    .font(.headline)
-                    .fontWeight(.bold)
-
-                Rectangle()
-                    .fill(stageColor)
-                    .frame(width: 2, height: 20)
-
-                Text(timeString(performance.endTime))
-                    .font(.subheadline)
-                    .foregroundColor(AppColors.textSecondary)
-            }
-            .frame(width: 60)
-
-            // Artist info
-            VStack(alignment: .leading, spacing: 4) {
-                HStack {
-                    Text(performance.artist.name)
-                        .font(.headline)
-                        .fontWeight(.semibold)
-
-                    if performance.isHeadliner {
-                        Text("HEADLINER")
-                            .font(.caption2)
-                            .fontWeight(.bold)
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 2)
-                            .background(AppColors.primaryGold)
-                            .cornerRadius(4)
-                    }
-                }
-
-                if let tribute = performance.artist.tributeTo {
-                    Text("Tribute aan \(tribute)")
-                        .font(.subheadline)
-                        .foregroundColor(AppColors.textSecondary)
-                }
-
-                HStack {
-                    Image(systemName: "clock")
-                        .font(.caption)
-                    Text("\(performance.durationMinutes) min")
-                        .font(.caption)
-
-                    if showStage {
-                        Text("•")
-                            .foregroundColor(AppColors.textTertiary)
-                        Text(performance.stage.rawValue)
-                            .font(.caption)
-                            .fontWeight(.medium)
-                            .foregroundColor(stageColor)
-                    }
-
-                    Spacer()
-
-                    Text(performance.artist.genre)
-                        .font(.caption)
-                        .foregroundColor(stageColor)
-                }
-                .foregroundColor(AppColors.textTertiary)
-            }
-
-            Spacer()
-
-            Image(systemName: "chevron.right")
-                .foregroundColor(AppColors.textTertiary)
-        }
-        .padding()
-        .background(AppColors.secondaryBackground)
-        .cornerRadius(12)
-        .overlay(
-            RoundedRectangle(cornerRadius: 12)
-                .strokeBorder(stageColor.opacity(0.3), lineWidth: 1)
-        )
-    }
-
-    private func timeString(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        return formatter.string(from: date)
-    }
-}
-
-// MARK: - Compact Performance Card (for two-column view)
+// MARK: - Performance Card (for timeline view)
 
 struct CompactPerformanceCard: View {
     let performance: Performance
@@ -568,12 +366,6 @@ struct CompactPerformanceCard: View {
                         .lineLimit(1)
                 }
 
-                // Genre (only if not compact)
-                if !isCompact {
-                    Text(performance.artist.genre)
-                        .font(.caption2)
-                        .foregroundColor(stageColor.opacity(0.8))
-                }
             }
 
             Spacer(minLength: 0)
@@ -674,10 +466,6 @@ struct PerformanceDetailSheet: View {
                     .background(AppColors.primaryGold)
                     .cornerRadius(6)
             }
-
-            Text(performance.artist.genre)
-                .font(.subheadline)
-                .foregroundColor(AppColors.textSecondary)
         }
         .frame(maxWidth: .infinity)
     }

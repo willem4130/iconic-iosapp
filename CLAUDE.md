@@ -1,8 +1,10 @@
 # Iconic Festival iOS App
 
-Official mobile app for Iconic Festival 2026 - a tribute band festival at Goffertpark, Nijmegen. Features timetable, venue info, AI chat assistant (Claude), and push notifications.
+Official mobile app for Iconic Festival 2026 - a tribute band festival at Goffertpark, Nijmegen. Features timetable, venue info, AI chat assistant (Festival Assistent), and push notifications.
 
 **Stack:** SwiftUI + Swift 5.9 + iOS 17+ + SwiftData + Claude API + XcodeGen
+
+**Target audience:** 50+ year olds - UI prioritizes clarity and simplicity over features.
 
 ## Quick Start
 
@@ -10,16 +12,19 @@ Official mobile app for Iconic Festival 2026 - a tribute band festival at Goffer
 # Project location
 cd /Users/willemvandenberg/Dev/Iconic/iconic-iosapp
 
-# Open in Xcode
+# Open in Xcode and run with Cmd+R (preferred)
 open IconicFestival.xcodeproj
 
-# Build from CLI
+# Or build from CLI
 xcodebuild -scheme IconicFestival -destination 'platform=iOS Simulator,name=iPhone 17' build
 
-# Run in simulator
-xcodebuild -scheme IconicFestival -destination 'platform=iOS Simulator,name=iPhone 17' build && xcrun simctl boot "iPhone 17" 2>/dev/null; xcrun simctl install "iPhone 17" ~/Library/Developer/Xcode/DerivedData/IconicFestival-*/Build/Products/Debug-iphonesimulator/IconicFestival.app && xcrun simctl launch "iPhone 17" com.iconicfestival.app
+# Launch in simulator (after build)
+xcrun simctl boot "iPhone 17" 2>/dev/null
+xcrun simctl install booted ~/Library/Developer/Xcode/DerivedData/IconicFestival-*/Build/Products/Debug-iphonesimulator/IconicFestival.app
+xcrun simctl launch booted nl.iconic.festivalapp
 ```
 
+**Bundle ID:** `nl.iconic.festivalapp`
 **Remote:** https://github.com/willem4130/iconic-iosapp.git
 **Branch:** `feature/setup-commands`
 
@@ -31,21 +36,21 @@ IconicFestival/
 ├── Core/
 │   ├── Navigation/         # Router, Routes, NavigationModifiers
 │   ├── Theme/              # AppColors, ThemeManager
-│   ├── Network/            # NetworkClient, Endpoint, NetworkMonitor
+│   ├── Network/            # NetworkClient, Endpoint
 │   ├── Storage/            # KeychainManager, UserDefaultsManager
 │   ├── Components/         # Reusable UI (Buttons, LoadingView, etc.)
 │   ├── Extensions/         # Swift extensions
 │   ├── DependencyInjection/# DI container
 │   ├── Logger/             # Logging system
-│   └── Utilities/          # FormValidation, HapticFeedback
+│   └── Utilities/          # General utilities
 ├── Features/
 │   ├── Timetable/          # Festival schedule (View + ViewModel)
 │   ├── Info/               # FAQ, venue, contact info
 │   ├── Chat/               # AI assistant (View + ViewModel)
 │   └── Settings/           # Settings, Profile, AISettings, About
 ├── Models/                 # TimetableData, FestivalInfo, KnowledgeBase, SwiftData
-├── Services/               # ClaudeService, AuthService, NotificationService
-├── Configuration/          # Debug/Staging/Production/Secrets xcconfig
+├── Services/               # ClaudeService
+├── Configuration/          # Debug/Production/Secrets xcconfig
 └── Resources/              # Assets.xcassets, Knowledge_Base.json
 ```
 
@@ -65,7 +70,7 @@ Fix ALL errors before continuing.
 - **Views** → `Features/[Feature]/View/`
 - **ViewModels** → `Features/[Feature]/ViewModel/`
 - **Models** → `Models/`
-- **Services** → `Services/` (ClaudeService, AuthService, etc.)
+- **Services** → `Services/` (ClaudeService)
 - **Shared components** → `Core/Components/`
 - **Navigation** → `Core/Navigation/Route.swift` + `Router.swift`
 - **One responsibility per file**
@@ -125,13 +130,46 @@ All artist photos are loaded from `iconicfestival.nl` via the `imageURL` field o
 
 Contact URLs are defined in `FestivalInfo.swift` → `ContactInfo` struct.
 
-Social links appear in:
-- `TimetableView` header (icons below date)
+Social links appear in headers with labeled icons (Instagram, Facebook, Website):
+- `TimetableView` header
+- `InfoView` header
 - `ChatView` welcome message
 - `SettingsView` "Volg Ons" section
-- `InfoView` contact section
 - `AboutView` links section
 
-## Artist Social Links
+## Artist Model
 
-All 10 artists have validated social links (website, Instagram, Facebook, YouTube) stored in `TimetableData.swift` via `ArtistSocials`. See `ARTISTS.md` for the complete reference.
+Each `Artist` in `TimetableData.swift` has:
+- `name`, `tributeTo` (optional), `description`
+- `imageURL` - photo from iconicfestival.nl
+- `socials` - `ArtistSocials` with website, Instagram, Facebook, YouTube links
+
+All 10 artists have validated social links. See `ARTISTS.md` for the complete reference.
+
+## App Tabs
+
+| Tab | View | Purpose |
+|-----|------|---------|
+| Programma | `TimetableView` | Festival schedule with two-column timeline |
+| Info | `InfoView` | FAQ, venue location, contact info |
+| Vraag | `ChatView` | AI chat assistant (Festival Assistent) |
+| Meer | `SettingsView` | Settings, about, social links |
+
+## UI Design
+
+**Compact headers:** All main views (Timetable, Info, Chat) use a compact horizontal header:
+- Logo (36px) + title/date + social links with labels
+- Navigation bars hidden for maximum content space
+- ~52px total header height
+
+**Timetable:** Single timeline view showing both stages side-by-side with time markers. No tabs or view switching - keeps it simple for users.
+- `minuteHeight: 1.2` for compact display
+- Time labels on left, Main Stage and Openluchttheater columns
+- Tap performance card → `PerformanceDetailSheet` shows artist photo, bio, time, social links
+
+**Chat (Festival Assistent):**
+- Auto-scrolls when AI is thinking (shows loading indicator)
+- Auto-scrolls when new messages arrive
+- Smooth scroll animation (0.3s easeOut)
+
+**Info:** Section picker (FAQ, Locatie, Contact) with compact header.

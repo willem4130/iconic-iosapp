@@ -63,7 +63,7 @@ struct LazyInjected<T> {
 // MARK: - Dependency Keys
 
 /// Key path-based dependency injection for SwiftUI-style syntax
-/// Usage: @Injected(\.authService) var authService
+/// Usage: @Injected(\.networkClient) var networkClient
 extension Injected {
     init(_ keyPath: KeyPath<DependencyValues, T>) {
         self.value = DependencyValues.current[keyPath: keyPath]
@@ -73,10 +73,6 @@ extension Injected {
 /// Container for dependency values accessed via key paths
 struct DependencyValues {
     static var current = DependencyValues()
-
-    @MainActor var authService: AuthServiceProtocol {
-        AuthService.shared
-    }
 
     var networkClient: NetworkClient {
         DependencyContainer.shared.resolve(NetworkClient.self)

@@ -34,27 +34,60 @@ struct InfoView: View {
                 .scrollIndicators(.visible)
             }
             .background(AppColors.background)
-            .navigationTitle("Festival Info")
-            .navigationBarTitleDisplayMode(.large)
+            .navigationBarHidden(true)
         }
     }
 
     // MARK: - Logo Header
 
     private var logoHeader: some View {
-        VStack(spacing: 4) {
+        HStack(spacing: 12) {
             Image("IconicLogo")
                 .resizable()
                 .scaledToFit()
-                .frame(height: 60)
+                .frame(height: 36)
 
-            // Festival date
             Text(FestivalData.festivalDate)
                 .font(.subheadline)
                 .fontWeight(.medium)
                 .foregroundColor(AppColors.primaryGold)
+
+            Spacer()
+
+            // Social links with labels
+            HStack(spacing: 12) {
+                Link(destination: URL(string: FestivalInfo.contact.instagramURL)!) {
+                    VStack(spacing: 2) {
+                        Image(systemName: "camera.fill")
+                            .font(.caption)
+                        Text("Instagram")
+                            .font(.system(size: 8))
+                    }
+                    .foregroundColor(.white.opacity(0.8))
+                }
+
+                Link(destination: URL(string: FestivalInfo.contact.facebookURL)!) {
+                    VStack(spacing: 2) {
+                        Image(systemName: "hand.thumbsup.fill")
+                            .font(.caption)
+                        Text("Facebook")
+                            .font(.system(size: 8))
+                    }
+                    .foregroundColor(.white.opacity(0.8))
+                }
+
+                Link(destination: URL(string: FestivalInfo.contact.website)!) {
+                    VStack(spacing: 2) {
+                        Image(systemName: "globe")
+                            .font(.caption)
+                        Text("Website")
+                            .font(.system(size: 8))
+                    }
+                    .foregroundColor(.white.opacity(0.8))
+                }
+            }
         }
-        .frame(maxWidth: .infinity)
+        .padding(.horizontal)
         .padding(.vertical, 8)
         .background(AppColors.primaryDark)
     }
@@ -71,14 +104,14 @@ struct InfoView: View {
                 } label: {
                     HStack(spacing: 4) {
                         Image(systemName: section.icon)
-                            .font(.caption)
+                            .font(.caption2)
                         Text(section.rawValue)
-                            .font(.subheadline)
+                            .font(.caption)
                             .fontWeight(selectedSection == section ? .semibold : .regular)
                     }
                     .foregroundColor(selectedSection == section ? AppColors.primaryDark : .white)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 10)
+                    .padding(.vertical, 8)
                     .background(
                         selectedSection == section
                             ? AppColors.primaryWhite
@@ -87,9 +120,9 @@ struct InfoView: View {
                 }
             }
         }
-        .cornerRadius(8)
+        .cornerRadius(6)
         .padding(.horizontal)
-        .padding(.vertical, 12)
+        .padding(.vertical, 6)
         .background(AppColors.primaryDark)
     }
 

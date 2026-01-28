@@ -27,32 +27,35 @@ struct ChatView: View {
                 inputView
             }
             .background(AppColors.background)
-            .navigationTitle("Festival Assistent")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        clearChat()
-                    } label: {
-                        Image(systemName: "trash")
-                            .foregroundColor(AppColors.textSecondary)
-                    }
-                }
-            }
+            .navigationBarHidden(true)
         }
     }
 
     // MARK: - Logo Header
 
     private var logoHeader: some View {
-        HStack {
-            Spacer()
+        HStack(spacing: 12) {
             Image("IconicLogo")
                 .resizable()
                 .scaledToFit()
-                .frame(height: 50)
+                .frame(height: 36)
+
+            Text("Festival Assistent")
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .foregroundColor(AppColors.primaryGold)
+
             Spacer()
+
+            Button {
+                clearChat()
+            } label: {
+                Image(systemName: "trash")
+                    .font(.caption)
+                    .foregroundColor(.white.opacity(0.8))
+            }
         }
+        .padding(.horizontal)
         .padding(.vertical, 8)
         .background(AppColors.primaryDark)
     }
@@ -83,18 +86,32 @@ struct ChatView: View {
                                 .foregroundColor(AppColors.textSecondary)
                         }
                         .padding()
+                        .id("loading")
                     }
+
+                    // Scroll anchor at the bottom
+                    Color.clear
+                        .frame(height: 1)
+                        .id("bottom")
                 }
                 .padding()
             }
             .scrollIndicators(.visible)
             .onChange(of: messages.count) { _, _ in
-                if let lastMessage = messages.last {
-                    withAnimation {
-                        proxy.scrollTo(lastMessage.id, anchor: .bottom)
-                    }
+                scrollToBottom(proxy: proxy)
+            }
+            .onChange(of: viewModel.isLoading) { _, isLoading in
+                if isLoading {
+                    // Scroll to loading indicator when AI starts thinking
+                    scrollToBottom(proxy: proxy)
                 }
             }
+        }
+    }
+
+    private func scrollToBottom(proxy: ScrollViewProxy) {
+        withAnimation(.easeOut(duration: 0.3)) {
+            proxy.scrollTo("bottom", anchor: .bottom)
         }
     }
 

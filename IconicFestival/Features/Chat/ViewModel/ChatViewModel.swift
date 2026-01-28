@@ -805,7 +805,6 @@ final class ChatViewModel {
                     Podium: \(performance.stage.rawValue)
                     Tijd: \(performance.timeRange)
                     Duur: \(performance.durationMinutes) minuten
-                    Genre: \(artist.genre)
                     \(performance.isHeadliner ? "⭐ HEADLINER" : "")
 
                     \(artist.description)

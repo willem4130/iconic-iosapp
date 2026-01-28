@@ -130,10 +130,6 @@ struct ArtistDetailView: View {
 
                 Text(artist.description)
                     .font(.body)
-
-                Text(artist.genre)
-                    .font(.subheadline)
-                    .foregroundColor(AppColors.textSecondary)
             }
             .padding()
         }

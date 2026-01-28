@@ -63,7 +63,6 @@ struct Artist: Identifiable, Codable, Hashable {
     let tributeTo: String?
     let description: String
     let imageURL: String?
-    let genre: String
     let socials: ArtistSocials
 
     init(
@@ -72,7 +71,6 @@ struct Artist: Identifiable, Codable, Hashable {
         tributeTo: String? = nil,
         description: String,
         imageURL: String? = nil,
-        genre: String,
         socials: ArtistSocials = ArtistSocials()
     ) {
         self.id = id
@@ -80,7 +78,6 @@ struct Artist: Identifiable, Codable, Hashable {
         self.tributeTo = tributeTo
         self.description = description
         self.imageURL = imageURL
-        self.genre = genre
         self.socials = socials
     }
 }
@@ -166,7 +163,6 @@ enum FestivalData {
             meezingers. Zomerse vibes gegarandeerd!
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/11/BeachBoys_Best1_creditsWilliamRutte-min-scaled.jpg",
-            genre: "Surf Rock / Pop",
             socials: ArtistSocials(
                 website: "https://www.beachboysbest.nl/",
                 instagram: "https://www.instagram.com/beachboysbest/",
@@ -185,7 +181,6 @@ enum FestivalData {
             Eerder te zien op Zwarte Cross, Paaspop, Bevrijdingsfestival Den Haag en Oerol.
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2024/01/Battle-of-The-Bands-The-Tribute-1-Credits-William-Rutten-min-scaled.jpg",
-            genre: "Rock",
             socials: ArtistSocials(
                 website: "https://comingonstrong.nl/",
                 instagram: "https://www.instagram.com/comingonstrong.nl/",
@@ -203,7 +198,6 @@ enum FestivalData {
             Verwacht klassiekers als "The Chain", "Landslide", "Rhiannon" en "Don't Stop".
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/03/The-Cosmic-Carnival-Tribute-to-Fleetwood-Mac-Bandfoto.webp",
-            genre: "Psychedelische Rock",
             socials: ArtistSocials(
                 website: "https://www.thecosmiccarnival.com/",
                 instagram: "https://www.instagram.com/thecosmiccarnival/",
@@ -222,7 +216,6 @@ enum FestivalData {
             allerhoogste niveau.
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/03/blij.webp",
-            genre: "Pop / R&B",
             socials: ArtistSocials(
                 website: "https://www.treasuretribute.nl/",
                 instagram: "https://www.instagram.com/treasuretributetobruno/",
@@ -241,7 +234,6 @@ enum FestivalData {
             Maak je klaar om de nacht door te dansen!
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/11/Donna_s-Hot-Stuff_CREDITS-WILLIAM-RUTTE-min-scaled.jpg",
-            genre: "Disco",
             socials: ArtistSocials(
                 website: "https://donnashotstuff.nl/",
                 instagram: "https://www.instagram.com/DonnasHotStuff/",
@@ -260,7 +252,6 @@ enum FestivalData {
             Verwacht een onvergetelijk feest!
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/03/thedirtydaddies_2024_liggend-scaled.jpg",
-            genre: "Rock / Party",
             socials: ArtistSocials(
                 website: "https://thedirtydaddies.com/",
                 instagram: "https://www.instagram.com/thedirtydaddies/",
@@ -281,7 +272,6 @@ enum FestivalData {
             hits. Dit wordt een echt ABBA-feest!
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/02/IMG_3046.jpg",
-            genre: "Pop / Disco",
             socials: ArtistSocials(
                 website: "https://abbagoldeurope.com/",
                 facebook: "https://www.facebook.com/pages/Abba-Gold-Europe/110662948785",
@@ -299,7 +289,6 @@ enum FestivalData {
             authenticiteit en rauwe kracht door haar hele carrière heen.
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/03/Anouk-Tribute-Urban-Solitude-Mariska-en-MIke-1024x1024-1.jpg",
-            genre: "Rock / Pop",
             socials: ArtistSocials(
                 website: "https://urbansolitude.nl/",
                 instagram: "https://www.instagram.com/urbansolitudeanouk/",
@@ -318,7 +307,6 @@ enum FestivalData {
             "Cold Heart". Dans mee op de beats die de wereld veroverden!
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/11/Scherm\u{00AD}afbeelding-2025-11-04-om-14.51.28.png",
-            genre: "Pop / Dance",
             socials: ArtistSocials(
                 website: "https://futurenostalgiadle.com/",
                 instagram: "https://www.instagram.com/futureenostalgiaa_/",
@@ -338,7 +326,6 @@ enum FestivalData {
             drums. Een eerbetoon aan Freddie Mercury, Brian May, Roger Taylor en John Deacon.
             """,
             imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/12/about-bg-scaled-1-e1765997380313.jpg",
-            genre: "Rock",
             socials: ArtistSocials(
                 website: "https://thedutchqueen.com/",
                 instagram: "https://www.instagram.com/the_dutch_queen/",
