@@ -18,7 +18,7 @@ struct TimetableView: View {
                 // Timetable
                 integraalTwoColumnView
             }
-            .background(AppColors.warmCream)
+            .background(AppColors.background)
             .navigationBarHidden(true)
             .sheet(item: $selectedPerformance) { performance in
                 PerformanceDetailSheet(performance: performance)
@@ -199,11 +199,6 @@ struct TimetableView: View {
         let totalHeight = CGFloat(totalMinutes) * minuteHeight
 
         return ZStack(alignment: .topLeading) {
-            // Navy background strip
-            RoundedRectangle(cornerRadius: 6)
-                .fill(AppColors.primaryDark.opacity(0.08))
-                .frame(width: 44, height: totalHeight)
-
             ForEach(labels.indices, id: \.self) { index in
                 let label = labels[index]
                 let offsetMinutes = label.date.timeIntervalSince(gridStart) / 60
@@ -212,7 +207,7 @@ struct TimetableView: View {
                 Text(label.label)
                     .font(label.isHour ? .caption : .caption2)
                     .fontWeight(label.isHour ? .semibold : .regular)
-                    .foregroundColor(label.isHour ? AppColors.primaryDark : AppColors.textTertiary)
+                    .foregroundColor(label.isHour ? AppColors.primaryGold : AppColors.textTertiary)
                     .offset(y: yOffset - 6) // Center on the grid line
             }
         }
@@ -244,7 +239,7 @@ struct TimetableView: View {
                 let isHourLine = minute == 0
 
                 Rectangle()
-                    .fill(isHourLine ? AppColors.primaryDark.opacity(0.15) : AppColors.primaryDark.opacity(0.05))
+                    .fill(isHourLine ? AppColors.textTertiary.opacity(0.4) : AppColors.textTertiary.opacity(0.15))
                     .frame(height: isHourLine ? 1 : 0.5)
                     .offset(y: yOffset)
             }
@@ -269,16 +264,18 @@ struct TimetableView: View {
     private func stageColumnHeader(stage: Stage) -> some View {
         let stageColor = stage == .mainStage ? AppColors.stageMain : AppColors.stageTheater
 
-        return Text(stage.rawValue)
-            .font(.subheadline)
-            .fontWeight(.bold)
-            .foregroundColor(.white)
-            .padding(.horizontal, 12)
-            .padding(.vertical, 6)
-            .frame(maxWidth: .infinity)
-            .background(stageColor)
-            .cornerRadius(8)
-            .padding(.bottom, 4)
+        return VStack(spacing: 4) {
+            Text(stage.rawValue)
+                .font(.subheadline)
+                .fontWeight(.bold)
+                .foregroundColor(stageColor)
+
+            Rectangle()
+                .fill(stageColor)
+                .frame(height: 3)
+                .cornerRadius(1.5)
+        }
+        .padding(.bottom, 4)
     }
 
     // MARK: - Timetable Header
@@ -288,7 +285,7 @@ struct TimetableView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text("Programma")
                     .font(.headline)
-                    .foregroundColor(AppColors.primaryDark)
+                    .foregroundColor(AppColors.primaryGold)
 
                 Text("Beide podia op tijdvolgorde")
                     .font(.caption)
@@ -302,7 +299,7 @@ struct TimetableView: View {
                 .foregroundColor(AppColors.primaryGold)
         }
         .padding()
-        .background(AppColors.primaryDark.opacity(0.08))
+        .background(AppColors.primaryGold.opacity(0.1))
         .cornerRadius(12)
     }
 
@@ -379,23 +376,20 @@ struct CompactPerformanceCard: View {
             Spacer(minLength: 0)
         }
         .padding(isVeryCompact ? 6 : (isCompact ? 8 : 10))
-        .padding(.leading, 4) // Space for accent bar
         .frame(maxWidth: .infinity, alignment: .leading)
         .frame(height: height)
-        .background(
-            ZStack(alignment: .leading) {
-                // Warm cream base
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.white)
-
-                // Stage color accent bar on left
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(stageColor)
-                    .frame(width: 4)
-            }
-        )
+        .background(AppColors.secondaryBackground)
         .cornerRadius(8)
-        .shadow(color: AppColors.primaryDark.opacity(0.08), radius: 2, x: 0, y: 1)
+        .overlay(
+            RoundedRectangle(cornerRadius: 8)
+                .strokeBorder(stageColor.opacity(0.4), lineWidth: 1.5)
+        )
+        .overlay(alignment: .leading) {
+            // Accent bar on left
+            RoundedRectangle(cornerRadius: 8)
+                .fill(stageColor)
+                .frame(width: 4)
+        }
     }
 
     private func timeString(_ date: Date) -> String {
