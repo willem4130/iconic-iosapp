@@ -4,6 +4,25 @@ Official mobile app for Iconic Festival 2026 - a tribute band festival at Goffer
 
 **Stack:** SwiftUI + Swift 5.9 + iOS 17+ + SwiftData + Claude API + XcodeGen
 
+## Quick Start
+
+```bash
+# Project location
+cd /Users/willemvandenberg/Dev/Iconic/iconic-iosapp
+
+# Open in Xcode
+open IconicFestival.xcodeproj
+
+# Build from CLI
+xcodebuild -scheme IconicFestival -destination 'platform=iOS Simulator,name=iPhone 17' build
+
+# Run in simulator
+xcodebuild -scheme IconicFestival -destination 'platform=iOS Simulator,name=iPhone 17' build && xcrun simctl boot "iPhone 17" 2>/dev/null; xcrun simctl install "iPhone 17" ~/Library/Developer/Xcode/DerivedData/IconicFestival-*/Build/Products/Debug-iphonesimulator/IconicFestival.app && xcrun simctl launch "iPhone 17" com.iconicfestival.app
+```
+
+**Remote:** https://github.com/willem4130/iconic-iosapp.git
+**Branch:** `feature/setup-commands`
+
 ## Project Structure
 
 ```
@@ -55,11 +74,13 @@ Fix ALL errors before continuing.
 
 | File | Purpose |
 |------|---------|
+| `Models/TimetableData.swift` | All artists, performances, socials, image URLs |
+| `Models/FestivalInfo.swift` | Contact info, FAQ, venue details |
 | `Services/ClaudeService.swift` | Claude API integration, conversation history |
-| `Models/KnowledgeBase.swift` | Knowledge base models + system prompt |
-| `Resources/Iconic_Festival_Knowledge_Base.json` | All festival data (~15KB) |
 | `Features/Chat/ViewModel/ChatViewModel.swift` | Chat logic + offline fallback |
+| `Core/Components/CachedAsyncImage.swift` | Image loading with NSCache |
 | `Configuration/Secrets.xcconfig` | API keys (gitignored) |
+| `ARTISTS.md` | Documentation of all band social links |
 
 ## Brand Colors
 
@@ -103,3 +124,14 @@ All artist photos are loaded from `iconicfestival.nl` via the `imageURL` field o
 - **Linktree:** https://linktr.ee/iconic_festival
 
 Contact URLs are defined in `FestivalInfo.swift` → `ContactInfo` struct.
+
+Social links appear in:
+- `TimetableView` header (icons below date)
+- `ChatView` welcome message
+- `SettingsView` "Volg Ons" section
+- `InfoView` contact section
+- `AboutView` links section
+
+## Artist Social Links
+
+All 10 artists have validated social links (website, Instagram, Facebook, YouTube) stored in `TimetableData.swift` via `ArtistSocials`. See `ARTISTS.md` for the complete reference.
