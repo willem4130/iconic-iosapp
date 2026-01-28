@@ -14,6 +14,7 @@ struct SettingsView: View {
     var body: some View {
         List {
             festivalInfoSection
+            socialSection
             aiSection
             appearanceSection
             notificationsSection
@@ -131,14 +132,54 @@ struct SettingsView: View {
                 Text(buildNumber)
             }
 
-            // Social links
-            Link(destination: URL(string: "https://instagram.com/iconicfestival")!) {
-                Label("Volg op Instagram", systemImage: "camera")
-            }
+        }
+    }
 
-            Link(destination: URL(string: "https://facebook.com/IconicFestivalNL")!) {
-                Label("Volg op Facebook", systemImage: "hand.thumbsup")
+    private var socialSection: some View {
+        Section {
+            HStack(spacing: 20) {
+                Spacer()
+
+                Link(destination: URL(string: FestivalInfo.contact.instagramURL)!) {
+                    VStack(spacing: 4) {
+                        Image(systemName: "camera.fill")
+                            .font(.title2)
+                            .foregroundColor(AppColors.primaryGold)
+                        Text("Instagram")
+                            .font(.caption2)
+                            .foregroundColor(AppColors.textSecondary)
+                    }
+                }
+
+                Link(destination: URL(string: FestivalInfo.contact.facebookURL)!) {
+                    VStack(spacing: 4) {
+                        Image(systemName: "hand.thumbsup.fill")
+                            .font(.title2)
+                            .foregroundColor(AppColors.primaryGold)
+                        Text("Facebook")
+                            .font(.caption2)
+                            .foregroundColor(AppColors.textSecondary)
+                    }
+                }
+
+                Link(destination: URL(string: FestivalInfo.contact.website)!) {
+                    VStack(spacing: 4) {
+                        Image(systemName: "globe")
+                            .font(.title2)
+                            .foregroundColor(AppColors.primaryGold)
+                        Text("Website")
+                            .font(.caption2)
+                            .foregroundColor(AppColors.textSecondary)
+                    }
+                }
+
+                Spacer()
             }
+            .padding(.vertical, 8)
+        } header: {
+            Text("Volg Ons")
+        } footer: {
+            Text("Blijf op de hoogte van het laatste nieuws!")
         }
     }
 

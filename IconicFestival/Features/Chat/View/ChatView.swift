@@ -135,6 +135,42 @@ struct ChatView: View {
                     }
                 }
             }
+
+            // Social links
+            VStack(spacing: 8) {
+                Text("Volg ons voor updates!")
+                    .font(.caption)
+                    .foregroundColor(AppColors.textTertiary)
+                    .padding(.top, 16)
+
+                HStack(spacing: 20) {
+                    Link(destination: URL(string: FestivalInfo.contact.instagramURL)!) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "camera.fill")
+                            Text("Instagram")
+                        }
+                        .font(.caption)
+                        .foregroundColor(AppColors.primaryGold)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(AppColors.primaryGold.opacity(0.1))
+                        .cornerRadius(16)
+                    }
+
+                    Link(destination: URL(string: FestivalInfo.contact.facebookURL)!) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "hand.thumbsup.fill")
+                            Text("Facebook")
+                        }
+                        .font(.caption)
+                        .foregroundColor(AppColors.primaryGold)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(AppColors.primaryGold.opacity(0.1))
+                        .cornerRadius(16)
+                    }
+                }
+            }
         }
         .padding(.vertical, 40)
     }

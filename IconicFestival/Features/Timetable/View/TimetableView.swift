@@ -51,6 +51,28 @@ struct TimetableView: View {
                 .font(.subheadline)
                 .fontWeight(.medium)
                 .foregroundColor(AppColors.primaryGold)
+
+            // Social links
+            HStack(spacing: 24) {
+                Link(destination: URL(string: FestivalInfo.contact.instagramURL)!) {
+                    Image(systemName: "camera.fill")
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.8))
+                }
+
+                Link(destination: URL(string: FestivalInfo.contact.facebookURL)!) {
+                    Image(systemName: "hand.thumbsup.fill")
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.8))
+                }
+
+                Link(destination: URL(string: FestivalInfo.contact.website)!) {
+                    Image(systemName: "globe")
+                        .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.8))
+                }
+            }
+            .padding(.top, 4)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 8)
