@@ -1,175 +1,125 @@
 # Iconic Festival iOS App
 
-Official mobile app for Iconic Festival 2026 - a tribute band festival at Goffertpark, Nijmegen. Features timetable, venue info, AI chat assistant (Festival Assistent), and push notifications.
+Official mobile app for Iconic Festival 2026 - a tribute band festival at Goffertpark, Nijmegen.
 
-**Stack:** SwiftUI + Swift 5.9 + iOS 17+ + SwiftData + Claude API + XcodeGen
-
-**Target audience:** 50+ year olds - UI prioritizes clarity and simplicity over features.
+**Stack:** SwiftUI + Swift 5.9 + iOS 17+ + SwiftData + Claude API
+**Target:** 50+ year olds - UI prioritizes clarity and simplicity
+**Bundle ID:** `nl.iconic.festivalapp`
 
 ## Quick Start
 
 ```bash
-# Project location
 cd /Users/willemvandenberg/Dev/Iconic/iconic-iosapp
+open IconicFestival.xcodeproj  # Then Cmd+R to run
+```
 
-# Open in Xcode and run with Cmd+R (preferred)
-open IconicFestival.xcodeproj
+**CLI Build & Run:**
+```bash
+# Build
+xcodebuild -scheme IconicFestival -destination 'platform=iOS Simulator,name=Iphone Willem' build
 
-# Or build from CLI
-xcodebuild -scheme IconicFestival -destination 'platform=iOS Simulator,name=iPhone 17' build
-
-# Launch in simulator (after build)
-xcrun simctl boot "iPhone 17" 2>/dev/null
+# Install & launch
 xcrun simctl install booted ~/Library/Developer/Xcode/DerivedData/IconicFestival-*/Build/Products/Debug-iphonesimulator/IconicFestival.app
 xcrun simctl launch booted nl.iconic.festivalapp
 ```
-
-**Bundle ID:** `nl.iconic.festivalapp`
-**Remote:** https://github.com/willem4130/iconic-iosapp.git
-**Branch:** `feature/setup-commands`
 
 ## Project Structure
 
 ```
 IconicFestival/
-├── App/                    # App entry, RootView, AppDelegate
+├── App/                    # App entry, RootView
 ├── Core/
-│   ├── Navigation/         # Router, Routes, NavigationModifiers
 │   ├── Theme/              # AppColors, ThemeManager
-│   ├── Network/            # NetworkClient, Endpoint
+│   ├── Navigation/         # Router, Routes
+│   ├── Components/         # Reusable UI (CachedAsyncImage, etc.)
 │   ├── Storage/            # KeychainManager, UserDefaultsManager
-│   ├── Components/         # Reusable UI (Buttons, LoadingView, etc.)
-│   ├── Extensions/         # Swift extensions
-│   ├── DependencyInjection/# DI container
-│   ├── Logger/             # Logging system
-│   └── Utilities/          # General utilities
+│   └── Extensions/         # Swift extensions
 ├── Features/
-│   ├── Timetable/          # Festival schedule (View + ViewModel)
-│   ├── Info/               # FAQ, venue, contact info
-│   ├── Chat/               # AI assistant (View + ViewModel)
-│   └── Settings/           # Settings, Profile, AISettings, About
-├── Models/                 # TimetableData, FestivalInfo, KnowledgeBase, SwiftData
+│   ├── Timetable/          # Festival schedule
+│   ├── Info/               # FAQ, venue, contact
+│   ├── Chat/               # AI assistant
+│   └── Settings/           # Settings, About
+├── Models/                 # TimetableData, FestivalInfo
 ├── Services/               # ClaudeService
-├── Configuration/          # Debug/Production/Secrets xcconfig
-└── Resources/              # Assets.xcassets, Knowledge_Base.json
+└── Configuration/          # Debug/Production xcconfig
 ```
-
-## Code Quality - Run After Every Edit
-
-```bash
-# Build check (catches most issues)
-xcodebuild -scheme IconicFestival -destination 'platform=iOS Simulator,name=iPhone 17' -quiet build 2>&1 | grep -E "error:|warning:"
-
-# Or in Xcode: Cmd+B
-```
-
-Fix ALL errors before continuing.
-
-## Organization Rules
-
-- **Views** → `Features/[Feature]/View/`
-- **ViewModels** → `Features/[Feature]/ViewModel/`
-- **Models** → `Models/`
-- **Services** → `Services/` (ClaudeService)
-- **Shared components** → `Core/Components/`
-- **Navigation** → `Core/Navigation/Route.swift` + `Router.swift`
-- **One responsibility per file**
-
-## Key Files
-
-| File | Purpose |
-|------|---------|
-| `Models/TimetableData.swift` | All artists, performances, socials, image URLs |
-| `Models/FestivalInfo.swift` | Contact info, FAQ, venue details |
-| `Services/ClaudeService.swift` | Claude API integration, conversation history |
-| `Features/Chat/ViewModel/ChatViewModel.swift` | Chat logic + offline fallback |
-| `Core/Components/CachedAsyncImage.swift` | Image loading with NSCache |
-| `Configuration/Secrets.xcconfig` | API keys (gitignored) |
-| `ARTISTS.md` | Documentation of all band social links |
 
 ## Brand Colors
 
 | Color | Hex | Usage |
 |-------|-----|-------|
-| Primary Dark | #08192C | Nav bars, backgrounds |
-| Primary Gold | #F29100 | Accent, buttons |
-| Main Stage | #AA7712 | Stage indicator |
-| Theater | #E8927C | Stage indicator |
+| Primary Dark | `#08192C` | Nav bars, headers |
+| Primary Gold | `#F29100` | Accents, buttons, highlights |
+| Warm Cream | `#EFE9E4` | Optional warm backgrounds |
+| Main Stage | `#AA7712` | Stage indicator (gold) |
+| Theater | `#E8927C` | Stage indicator (coral) |
 
-## Commands
+**Consistent styling across all views:**
+- Headers: Navy (`primaryDark`) background with logo + gold date
+- Section cards: `primaryGold.opacity(0.1)` background
+- Content cards: `secondaryBackground` with subtle borders
+- Accent elements: Stage colors for differentiation
 
-```bash
-xcodegen generate              # Regenerate project from project.yml
-open IconicFestival.xcodeproj  # Open in Xcode
-xcodebuild test -scheme IconicFestival -destination 'platform=iOS Simulator,name=iPhone 17'
-```
+## Key Files
 
-## Adding Features
-
-1. Create view in `Features/[Feature]/View/`
-2. Add ViewModel if needed in `Features/[Feature]/ViewModel/`
-3. Add route case to `Core/Navigation/Route.swift`
-4. Handle route in `Router.destination(for:)` in `Router.swift`
-
-## Timetable 2026
-
-**Main Stage:** Beach Boys' Best (14:00) → Coming on Strong → Cosmic Carnival → Treasure → Donna's Hot Stuff → Dirty Daddies (22:15, Headliner)
-
-**Openluchttheater:** ABBA GOLD (15:00) → Urban Solitude → Future Nostalgia → The Dutch Queen (21:00, Headliner)
-
-## Artist Images
-
-All artist photos are loaded from `iconicfestival.nl` via the `imageURL` field on each `Artist` in `TimetableData.swift`. Images are displayed using `CachedAsyncImage` (in `Core/Components/CachedAsyncImage.swift`) which provides in-memory caching via `NSCache` (100 items / 50MB limit).
-
-## Festival Social Media
-
-- **Website:** https://www.iconicfestival.nl
-- **Instagram:** https://www.instagram.com/iconic_festival/
-- **Facebook:** https://www.facebook.com/iconictribute/
-- **Linktree:** https://linktr.ee/iconic_festival
-
-Contact URLs are defined in `FestivalInfo.swift` → `ContactInfo` struct.
-
-Social links appear in headers with labeled icons (Instagram, Facebook, Website):
-- `TimetableView` header
-- `InfoView` header
-- `ChatView` welcome message
-- `SettingsView` "Volg Ons" section
-- `AboutView` links section
-
-## Artist Model
-
-Each `Artist` in `TimetableData.swift` has:
-- `name`, `tributeTo` (optional), `description`
-- `imageURL` - photo from iconicfestival.nl
-- `socials` - `ArtistSocials` with website, Instagram, Facebook, YouTube links
-
-All 10 artists have validated social links. See `ARTISTS.md` for the complete reference.
+| File | Purpose |
+|------|---------|
+| `Core/Theme/AppColors.swift` | All brand colors defined here |
+| `Models/TimetableData.swift` | Artists, performances, socials |
+| `Models/FestivalInfo.swift` | Contact, FAQ, venue details |
+| `Services/ClaudeService.swift` | Claude API integration |
+| `Configuration/Secrets.xcconfig` | API keys (gitignored) |
 
 ## App Tabs
 
 | Tab | View | Purpose |
 |-----|------|---------|
-| Programma | `TimetableView` | Festival schedule with two-column timeline |
-| Info | `InfoView` | FAQ, venue location, contact info |
-| Vraag | `ChatView` | AI chat assistant (Festival Assistent) |
+| Programma | `TimetableView` | Two-column timeline with both stages |
+| Info | `InfoView` | FAQ, venue location, contact |
+| Vraag | `ChatView` | AI chat assistant |
 | Meer | `SettingsView` | Settings, about, social links |
 
-## UI Design
+## UI Patterns
 
-**Compact headers:** All main views (Timetable, Info, Chat) use a compact horizontal header:
-- Logo (36px) + title/date + social links with labels
-- Navigation bars hidden for maximum content space
-- ~52px total header height
+**All main views share:**
+- Compact header: Logo (36px) + title + social links
+- Navigation bars hidden for maximum content
+- Gold accents for interactive elements
+- `secondaryBackground` for cards
 
-**Timetable:** Single timeline view showing both stages side-by-side with time markers. No tabs or view switching - keeps it simple for users.
-- `minuteHeight: 1.2` for compact display
-- Time labels on left, Main Stage and Openluchttheater columns
-- Tap performance card → `PerformanceDetailSheet` shows artist photo, bio, time, social links
+**Timetable cards:**
+- `secondaryBackground` base
+- Colored left accent bar (gold/coral per stage)
+- Subtle stage-colored border
+- Bold hour labels in gold
 
-**Chat (Festival Assistent):**
-- Auto-scrolls when AI is thinking (shows loading indicator)
-- Auto-scrolls when new messages arrive
-- Smooth scroll animation (0.3s easeOut)
+**Performance detail sheet:** Artist photo, bio, time, social links
 
-**Info:** Section picker (FAQ, Locatie, Contact) with compact header.
+## Timetable 2026
+
+**Main Stage:** Beach Boys' Best (14:00) → Coming on Strong → Cosmic Carnival → Treasure → Donna's Hot Stuff → Dirty Daddies (22:15 Headliner)
+
+**Openluchttheater:** ABBA GOLD (15:00) → Urban Solitude → Future Nostalgia → The Dutch Queen (21:00 Headliner)
+
+## Festival Links
+
+- **Website:** https://www.iconicfestival.nl
+- **Instagram:** https://www.instagram.com/iconic_festival/
+- **Facebook:** https://www.facebook.com/iconictribute/
+
+Social links defined in `FestivalInfo.swift` → `ContactInfo` struct.
+
+## Adding Features
+
+1. Create view in `Features/[Feature]/View/`
+2. Add ViewModel if needed in `Features/[Feature]/ViewModel/`
+3. Add route to `Core/Navigation/Route.swift`
+4. Handle in `Router.destination(for:)`
+
+## Commands
+
+```bash
+open IconicFestival.xcodeproj     # Open project
+xcodebuild -scheme IconicFestival -destination 'platform=iOS Simulator,name=Iphone Willem' build
+xcodebuild test -scheme IconicFestival -destination 'platform=iOS Simulator,name=Iphone Willem'
+```
