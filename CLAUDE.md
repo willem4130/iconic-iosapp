@@ -116,10 +116,21 @@ Social links defined in `FestivalInfo.swift` → `ContactInfo` struct.
 3. Add route to `Core/Navigation/Route.swift`
 4. Handle in `Router.destination(for:)`
 
+## CLI Tools
+
+Installed tools for iOS development:
+
+| Tool | Purpose |
+|------|---------|
+| `tuist` | Project generation & build caching |
+| `xcodes` | Xcode version management |
+| `fastlane` | Build automation & App Store deployment |
+
 ## Commands
 
 ```bash
 open IconicFestival.xcodeproj     # Open project
 xcodebuild -scheme IconicFestival -destination 'platform=iOS Simulator,name=Iphone Willem' build
 xcodebuild test -scheme IconicFestival -destination 'platform=iOS Simulator,name=Iphone Willem'
+fastlane build                    # Automated build (when configured)
 ```
