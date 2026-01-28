@@ -64,7 +64,8 @@ IconicFestival/
 
 | File | Purpose |
 |------|---------|
-| `Core/Theme/AppColors.swift` | All brand colors defined here |
+| `Core/Theme/AppColors.swift` | Brand colors + `AppAnimations` + animation modifiers |
+| `Core/Components/Buttons.swift` | Button components + `PressableButtonStyle` |
 | `Models/TimetableData.swift` | Artists, performances, socials |
 | `Models/FestivalInfo.swift` | Contact, FAQ, venue details |
 | `Services/ClaudeService.swift` | Claude API integration |

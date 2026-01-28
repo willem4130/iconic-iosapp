@@ -13,6 +13,7 @@ A tribute festival experience at Goffertpark, Nijmegen featuring amazing tribute
 - **AI Assistant** - Ask anything about the festival
 - **Notifications** - Never miss your favorite acts
 - **Dark Mode** - Full dark/light theme support
+- **Smooth Animations** - Subtle, polished UI animations throughout
 
 ---
 
