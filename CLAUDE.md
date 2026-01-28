@@ -156,5 +156,34 @@ Installed tools for iOS development:
 open IconicFestival.xcodeproj     # Open project
 xcodebuild -scheme IconicFestival -destination 'platform=iOS Simulator,name=Iphone Willem' build
 xcodebuild test -scheme IconicFestival -destination 'platform=iOS Simulator,name=Iphone Willem'
-fastlane build                    # Automated build (when configured)
 ```
+
+## TestFlight Deployment
+
+**Prerequisites:**
+- Apple Developer account (Team ID: `7L4VG8Z66M`)
+- Distribution certificate installed (Xcode → Settings → Accounts → Manage Certificates)
+- App created in [App Store Connect](https://appstoreconnect.apple.com)
+
+**Archive & Upload:**
+```bash
+# Create archive
+xcodebuild -scheme IconicFestival -configuration Release \
+  -archivePath ./build/IconicFestival.xcarchive \
+  -destination 'generic/platform=iOS' \
+  -allowProvisioningUpdates archive
+
+# Export and upload to App Store Connect
+xcodebuild -exportArchive \
+  -archivePath ./build/IconicFestival.xcarchive \
+  -exportPath ./build/export \
+  -exportOptionsPlist ExportOptions.plist \
+  -allowProvisioningUpdates
+```
+
+**Or via Xcode:**
+1. Product → Archive
+2. Window → Organizer → Distribute App → TestFlight & App Store
+
+**Invite testers:**
+App Store Connect → Your App → TestFlight → Add testers by email

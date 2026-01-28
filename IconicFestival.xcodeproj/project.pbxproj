@@ -714,7 +714,7 @@
 				CODE_SIGN_ENTITLEMENTS = IconicFestival/IconicFestival.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7L4VG8Z66M;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = IconicFestival/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -776,7 +776,7 @@
 				CODE_SIGN_ENTITLEMENTS = IconicFestival/IconicFestival.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 7L4VG8Z66M;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = IconicFestival/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
