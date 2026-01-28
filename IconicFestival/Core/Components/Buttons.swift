@@ -1,5 +1,29 @@
 import SwiftUI
 
+// MARK: - Button Press Effect
+
+/// Adds a scale-down effect when button is pressed
+struct PressableButtonStyle: ButtonStyle {
+    let scale: CGFloat
+
+    init(scale: CGFloat = 0.96) {
+        self.scale = scale
+    }
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? scale : 1.0)
+            .animation(.spring(response: 0.2, dampingFraction: 0.7), value: configuration.isPressed)
+    }
+}
+
+extension ButtonStyle where Self == PressableButtonStyle {
+    static var pressable: PressableButtonStyle { PressableButtonStyle() }
+    static func pressable(scale: CGFloat) -> PressableButtonStyle {
+        PressableButtonStyle(scale: scale)
+    }
+}
+
 // MARK: - Primary Button
 
 /// Primary action button with loading state support
@@ -34,10 +58,11 @@ public struct PrimaryButton: View {
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 16)
+            .background(isDisabled ? Color.gray.opacity(0.5) : Color.accentColor)
+            .foregroundStyle(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
         }
-        .background(isDisabled ? Color.gray.opacity(0.5) : Color.accentColor)
-        .foregroundStyle(.white)
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .buttonStyle(PressableButtonStyle())
         .disabled(isDisabled || isLoading)
     }
 }

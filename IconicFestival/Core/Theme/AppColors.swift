@@ -177,3 +177,102 @@ extension Color {
         )
     }
 }
+
+// MARK: - Animation Constants
+
+/// Centralized animation configuration for consistent feel across the app
+enum AppAnimations {
+    // MARK: - Durations
+    static let fast: Double = 0.15
+    static let normal: Double = 0.25
+    static let slow: Double = 0.4
+
+    // MARK: - Standard Animations
+    static let standard = Animation.easeInOut(duration: normal)
+    static let quick = Animation.easeOut(duration: fast)
+    static let gentle = Animation.easeInOut(duration: slow)
+
+    // MARK: - Spring Animations
+    static let spring = Animation.spring(response: 0.4, dampingFraction: 0.7)
+    static let bouncy = Animation.spring(response: 0.35, dampingFraction: 0.6, blendDuration: 0.1)
+    static let snappy = Animation.spring(response: 0.3, dampingFraction: 0.8)
+
+    // MARK: - Entrance Animations
+    static let cardEntrance = Animation.spring(response: 0.5, dampingFraction: 0.75)
+    static let slideIn = Animation.spring(response: 0.4, dampingFraction: 0.8)
+
+    // MARK: - Stagger Delay
+    static func staggerDelay(index: Int, base: Double = 0.05) -> Double {
+        return Double(index) * base
+    }
+}
+
+// MARK: - Animated Appearance Modifier
+
+/// Modifier for staggered entrance animations
+struct AnimatedAppearance: ViewModifier {
+    let delay: Double
+    let animation: Animation
+
+    @State private var isVisible = false
+
+    init(delay: Double = 0, animation: Animation = AppAnimations.cardEntrance) {
+        self.delay = delay
+        self.animation = animation
+    }
+
+    func body(content: Content) -> some View {
+        content
+            .opacity(isVisible ? 1 : 0)
+            .offset(y: isVisible ? 0 : 20)
+            .onAppear {
+                withAnimation(animation.delay(delay)) {
+                    isVisible = true
+                }
+            }
+    }
+}
+
+extension View {
+    /// Applies a staggered entrance animation
+    func animatedAppearance(delay: Double = 0, animation: Animation = AppAnimations.cardEntrance) -> some View {
+        modifier(AnimatedAppearance(delay: delay, animation: animation))
+    }
+
+    /// Applies staggered entrance based on index
+    func staggeredAppearance(index: Int, baseDelay: Double = 0.05) -> some View {
+        modifier(AnimatedAppearance(
+            delay: AppAnimations.staggerDelay(index: index, base: baseDelay),
+            animation: AppAnimations.cardEntrance
+        ))
+    }
+}
+
+// MARK: - Card Tap Feedback
+
+/// Visual feedback for tappable cards
+struct CardTapFeedback: ViewModifier {
+    @State private var isPressed = false
+    let action: () -> Void
+
+    func body(content: Content) -> some View {
+        content
+            .scaleEffect(isPressed ? 0.97 : 1.0)
+            .brightness(isPressed ? -0.02 : 0)
+            .animation(AppAnimations.quick, value: isPressed)
+            .gesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { _ in isPressed = true }
+                    .onEnded { _ in
+                        isPressed = false
+                        action()
+                    }
+            )
+    }
+}
+
+extension View {
+    func cardTapFeedback(action: @escaping () -> Void) -> some View {
+        modifier(CardTapFeedback(action: action))
+    }
+}

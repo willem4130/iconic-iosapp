@@ -98,7 +98,7 @@ struct InfoView: View {
         HStack(spacing: 0) {
             ForEach(InfoSection.allCases) { section in
                 Button {
-                    withAnimation(.easeInOut(duration: 0.2)) {
+                    withAnimation(AppAnimations.snappy) {
                         selectedSection = section
                     }
                 } label: {
@@ -117,7 +117,9 @@ struct InfoView: View {
                             ? AppColors.primaryWhite
                             : Color.white.opacity(0.15)
                     )
+                    .animation(AppAnimations.snappy, value: selectedSection)
                 }
+                .buttonStyle(.pressable(scale: 0.97))
             }
         }
         .cornerRadius(6)
@@ -433,12 +435,15 @@ struct FAQItemView: View {
 
                     Spacer()
 
-                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                    Image(systemName: "chevron.down")
                         .foregroundColor(AppColors.primaryGold)
+                        .rotationEffect(.degrees(isExpanded ? 180 : 0))
+                        .animation(AppAnimations.spring, value: isExpanded)
                 }
                 .padding()
                 .background(AppColors.secondaryBackground)
             }
+            .buttonStyle(.pressable(scale: 0.98))
 
             if isExpanded {
                 Text(item.answer)
@@ -446,9 +451,14 @@ struct FAQItemView: View {
                     .foregroundColor(AppColors.textSecondary)
                     .padding()
                     .background(AppColors.tertiaryBackground)
+                    .transition(.asymmetric(
+                        insertion: .opacity.combined(with: .move(edge: .top)),
+                        removal: .opacity
+                    ))
             }
         }
-        .cornerRadius(12)
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .animation(AppAnimations.spring, value: isExpanded)
         .padding(.horizontal)
     }
 }

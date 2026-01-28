@@ -122,23 +122,27 @@ struct ChatView: View {
             Image(systemName: "sparkles")
                 .font(.system(size: 50))
                 .foregroundColor(AppColors.primaryGold)
+                .animatedAppearance(delay: 0)
 
             Text("Welkom bij de Iconic Festival Assistent!")
                 .font(.headline)
                 .multilineTextAlignment(.center)
+                .animatedAppearance(delay: 0.1)
 
             Text("Stel me vragen over het festival - programma, artiesten, faciliteiten of praktische info.")
                 .font(.subheadline)
                 .foregroundColor(AppColors.textSecondary)
                 .multilineTextAlignment(.center)
+                .animatedAppearance(delay: 0.15)
 
             // Quick suggestions
             VStack(spacing: 8) {
                 Text("Probeer bijvoorbeeld:")
                     .font(.caption)
                     .foregroundColor(AppColors.textTertiary)
+                    .animatedAppearance(delay: 0.2)
 
-                ForEach(viewModel.suggestions, id: \.self) { suggestion in
+                ForEach(Array(viewModel.suggestions.enumerated()), id: \.element) { index, suggestion in
                     Button {
                         sendMessage(suggestion)
                     } label: {
@@ -150,6 +154,8 @@ struct ChatView: View {
                             .background(AppColors.primaryGold.opacity(0.1))
                             .cornerRadius(20)
                     }
+                    .buttonStyle(.pressable)
+                    .staggeredAppearance(index: index + 5, baseDelay: 0.08)
                 }
             }
 
@@ -252,6 +258,7 @@ struct ChatView: View {
 
 struct MessageBubble: View {
     let message: ChatMessage
+    @State private var hasAppeared = false
 
     var body: some View {
         HStack {
@@ -272,6 +279,14 @@ struct MessageBubble: View {
                 Text(formatTime(message.timestamp))
                     .font(.caption2)
                     .foregroundColor(AppColors.textTertiary)
+            }
+            .opacity(hasAppeared ? 1 : 0)
+            .offset(x: hasAppeared ? 0 : (message.isUser ? 30 : -30))
+            .scaleEffect(hasAppeared ? 1 : 0.9, anchor: message.isUser ? .trailing : .leading)
+            .onAppear {
+                withAnimation(AppAnimations.slideIn) {
+                    hasAppeared = true
+                }
             }
 
             if !message.isUser { Spacer(minLength: 60) }

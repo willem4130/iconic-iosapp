@@ -95,6 +95,29 @@ IconicFestival/
 
 **Performance detail sheet:** Artist photo, bio, time, social links
 
+## Animations
+
+Subtle, professional animations appropriate for 50+ audience. Defined in `AppColors.swift`.
+
+**Available animations (`AppAnimations`):**
+- `.spring` / `.bouncy` / `.snappy` - Spring animations
+- `.cardEntrance` / `.slideIn` - Entrance animations
+- `.staggerDelay(index:)` - Calculate stagger timing
+
+**View modifiers:**
+- `.animatedAppearance(delay:)` - Fade + slide up entrance
+- `.staggeredAppearance(index:)` - Index-based staggered entrance
+- `.cardTapFeedback { }` - Scale feedback on card tap
+
+**Button styles:**
+- `PressableButtonStyle` - Scale-down on press (in `Buttons.swift`)
+
+**Current animations:**
+- Chat bubbles slide in from sides (user: right, AI: left)
+- Chat welcome message has staggered entrance
+- FAQ items expand with spring + chevron rotation
+- Info section picker has snappy tab animation
+
 ## Timetable 2026
 
 **Main Stage:** Beach Boys' Best (14:00) → Coming on Strong → Cosmic Carnival → Treasure → Donna's Hot Stuff → Dirty Daddies (22:15 Headliner)
