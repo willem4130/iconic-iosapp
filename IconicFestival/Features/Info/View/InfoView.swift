@@ -42,14 +42,19 @@ struct InfoView: View {
     // MARK: - Logo Header
 
     private var logoHeader: some View {
-        HStack {
-            Spacer()
+        VStack(spacing: 4) {
             Image("IconicLogo")
                 .resizable()
                 .scaledToFit()
                 .frame(height: 60)
-            Spacer()
+
+            // Festival date
+            Text(FestivalData.festivalDate)
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .foregroundColor(AppColors.primaryGold)
         }
+        .frame(maxWidth: .infinity)
         .padding(.vertical, 8)
         .background(AppColors.primaryDark)
     }
@@ -57,14 +62,34 @@ struct InfoView: View {
     // MARK: - Section Picker
 
     private var sectionPicker: some View {
-        Picker("Sectie", selection: $selectedSection) {
+        HStack(spacing: 0) {
             ForEach(InfoSection.allCases) { section in
-                Label(section.rawValue, systemImage: section.icon)
-                    .tag(section)
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        selectedSection = section
+                    }
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: section.icon)
+                            .font(.caption)
+                        Text(section.rawValue)
+                            .font(.subheadline)
+                            .fontWeight(selectedSection == section ? .semibold : .regular)
+                    }
+                    .foregroundColor(selectedSection == section ? AppColors.primaryDark : .white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 10)
+                    .background(
+                        selectedSection == section
+                            ? AppColors.primaryWhite
+                            : Color.white.opacity(0.15)
+                    )
+                }
             }
         }
-        .pickerStyle(.segmented)
-        .padding()
+        .cornerRadius(8)
+        .padding(.horizontal)
+        .padding(.vertical, 12)
         .background(AppColors.primaryDark)
     }
 
@@ -135,6 +160,40 @@ struct InfoView: View {
 
     private var venueContent: some View {
         LazyVStack(spacing: 16) {
+            // Festival date card
+            VStack(alignment: .leading, spacing: 8) {
+                Label("Festival Datum", systemImage: "calendar")
+                    .font(.headline)
+                    .foregroundColor(AppColors.primaryGold)
+
+                HStack {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(FestivalData.festivalDate)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(AppColors.textPrimary)
+
+                        Text(FestivalData.festivalLocation)
+                            .font(.subheadline)
+                            .foregroundColor(AppColors.textSecondary)
+                    }
+
+                    Spacer()
+
+                    Image(systemName: "music.note.house.fill")
+                        .font(.largeTitle)
+                        .foregroundColor(AppColors.primaryGold)
+                }
+                .padding()
+                .background(AppColors.primaryGold.opacity(0.1))
+                .cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .strokeBorder(AppColors.primaryGold.opacity(0.3), lineWidth: 1)
+                )
+            }
+            .padding(.horizontal)
+
             // Address card
             infoCard(
                 title: "Locatie",
@@ -220,37 +279,13 @@ struct InfoView: View {
                     .padding(.horizontal)
 
                 HStack(spacing: 20) {
-                    socialButton(name: "Instagram", icon: "camera.fill", handle: FestivalInfo.contact.instagram)
-                    socialButton(name: "Facebook", icon: "hand.thumbsup.fill", handle: FestivalInfo.contact.facebook)
+                    socialButton(name: "Instagram", icon: "camera.fill", handle: FestivalInfo.contact.instagram, url: FestivalInfo.contact.instagramURL)
+                    socialButton(name: "Facebook", icon: "hand.thumbsup.fill", handle: FestivalInfo.contact.facebook, url: FestivalInfo.contact.facebookURL)
                 }
                 .padding(.horizontal)
             }
 
-            // Emergency
-            VStack(alignment: .leading, spacing: 8) {
-                Label("Noodgevallen", systemImage: "exclamationmark.triangle.fill")
-                    .font(.headline)
-                    .foregroundColor(AppColors.error)
-                    .padding(.horizontal)
 
-                Button {
-                    if let url = URL(string: "tel:\(FestivalInfo.contact.emergencyPhone)") {
-                        UIApplication.shared.open(url)
-                    }
-                } label: {
-                    HStack {
-                        Image(systemName: "phone.badge.waveform.fill")
-                        Text("Noodgevallen: \(FestivalInfo.contact.emergencyPhone)")
-                            .fontWeight(.semibold)
-                    }
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(AppColors.error)
-                    .cornerRadius(12)
-                }
-                .padding(.horizontal)
-            }
         }
         .padding(.vertical)
     }
@@ -306,18 +341,24 @@ struct InfoView: View {
         .padding(.horizontal)
     }
 
-    private func socialButton(name: String, icon: String, handle: String) -> some View {
-        VStack {
-            Image(systemName: icon)
-                .font(.title2)
-                .foregroundColor(AppColors.primaryGold)
-                .frame(width: 50, height: 50)
-                .background(AppColors.secondaryBackground)
-                .cornerRadius(25)
+    private func socialButton(name: String, icon: String, handle: String, url: String) -> some View {
+        Button {
+            if let linkURL = URL(string: url) {
+                UIApplication.shared.open(linkURL)
+            }
+        } label: {
+            VStack {
+                Image(systemName: icon)
+                    .font(.title2)
+                    .foregroundColor(AppColors.primaryGold)
+                    .frame(width: 50, height: 50)
+                    .background(AppColors.secondaryBackground)
+                    .cornerRadius(25)
 
-            Text(handle)
-                .font(.caption)
-                .foregroundColor(AppColors.textSecondary)
+                Text(handle)
+                    .font(.caption)
+                    .foregroundColor(AppColors.textSecondary)
+            }
         }
     }
 }

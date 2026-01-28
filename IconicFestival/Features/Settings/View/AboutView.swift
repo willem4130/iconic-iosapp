@@ -70,13 +70,13 @@ struct AboutView: View {
                 }
             }
 
-            if let instagramURL = URL(string: "https://instagram.com/iconicfestival") {
+            if let instagramURL = URL(string: FestivalInfo.contact.instagramURL) {
                 Link(destination: instagramURL) {
                     Label("Instagram", systemImage: "camera")
                 }
             }
 
-            if let facebookURL = URL(string: "https://facebook.com/IconicFestivalNL") {
+            if let facebookURL = URL(string: FestivalInfo.contact.facebookURL) {
                 Link(destination: facebookURL) {
                     Label("Facebook", systemImage: "hand.thumbsup")
                 }

@@ -24,6 +24,36 @@ enum Stage: String, CaseIterable, Identifiable, Codable {
     }
 }
 
+// MARK: - Artist Socials
+
+/// Social media links voor een artiest
+struct ArtistSocials: Codable, Hashable {
+    let website: String?
+    let instagram: String?
+    let facebook: String?
+    let spotify: String?
+    let youtube: String?
+
+    init(
+        website: String? = nil,
+        instagram: String? = nil,
+        facebook: String? = nil,
+        spotify: String? = nil,
+        youtube: String? = nil
+    ) {
+        self.website = website
+        self.instagram = instagram
+        self.facebook = facebook
+        self.spotify = spotify
+        self.youtube = youtube
+    }
+
+    /// Heeft minstens één social link
+    var hasAny: Bool {
+        [website, instagram, facebook, spotify, youtube].contains { $0 != nil }
+    }
+}
+
 // MARK: - Artist Model
 
 /// Artiest/band die optreedt op het festival
@@ -34,6 +64,7 @@ struct Artist: Identifiable, Codable, Hashable {
     let description: String
     let imageURL: String?
     let genre: String
+    let socials: ArtistSocials
 
     init(
         id: UUID = UUID(),
@@ -41,7 +72,8 @@ struct Artist: Identifiable, Codable, Hashable {
         tributeTo: String? = nil,
         description: String,
         imageURL: String? = nil,
-        genre: String
+        genre: String,
+        socials: ArtistSocials = ArtistSocials()
     ) {
         self.id = id
         self.name = name
@@ -49,6 +81,7 @@ struct Artist: Identifiable, Codable, Hashable {
         self.description = description
         self.imageURL = imageURL
         self.genre = genre
+        self.socials = socials
     }
 }
 
@@ -125,37 +158,82 @@ enum FestivalData {
         Artist(
             name: "Beach Boys' Best",
             tributeTo: "The Beach Boys",
-            description: "Feel-good zomerse vibes met de beste Beach Boys hits",
+            description: """
+            Winnaar van seizoen 5 van The Tribute – Battle of the Bands! Beach Boys' Best brengt \
+            de perfecte harmonieën, aanstekelijke energie en ongeëvenaard vakmanschap van The Beach Boys \
+            tot leven. Hun liveshow draait om meerstemmige vocale arrangementen van klassiekers als \
+            "Good Vibrations", "California Girls" en "God Only Knows", met volop ruimte voor \
+            meezingers. Zomerse vibes gegarandeerd!
+            """,
+            imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/11/BeachBoys_Best1_creditsWilliamRutte-min-scaled.jpg",
             genre: "Surf Rock / Pop"
         ),
         Artist(
             name: "Coming on Strong",
-            tributeTo: nil,
-            description: "Energiek rock optreden",
+            tributeTo: "Golden Earring",
+            description: """
+            Vijf ervaren muzikanten uit Den Haag met authentieke muziekpassie en diepe banden met \
+            Golden Earring – ze werkten eerder samen met de originele bandleden. Coming on Strong \
+            bereikte de finale van The Tribute – Battle of the Bands seizoen 5 en speelde vier keer \
+            in een uitverkochte Ziggo Dome tijdens The Tribute Live in Concert. Hun repertoire \
+            omvat energieke rockhits tot minder bekende nummers, altijd met focus op authenticiteit. \
+            Eerder te zien op Zwarte Cross, Paaspop, Bevrijdingsfestival Den Haag en Oerol.
+            """,
+            imageURL: "https://iconicfestival.nl/wp-content/uploads/2024/01/Battle-of-The-Bands-The-Tribute-1-Credits-William-Rutten-min-scaled.jpg",
             genre: "Rock"
         ),
         Artist(
             name: "The Cosmic Carnival",
-            tributeTo: nil,
-            description: "Een psychedelische reis door klassieke rock",
+            tributeTo: "Fleetwood Mac",
+            description: """
+            The Cosmic Carnival neemt je mee op een muzikale ontdekkingsreis door het wonderlijke \
+            universum van Fleetwood Mac. De band verkent het uitgebreide oeuvre voorbij de bekendste \
+            hits, met meeslepende verhalen vol spanning, romantiek en intriges. Ze spelen met \
+            overtuiging en recht vanuit het hart – van intiem en delicaat tot groots en meeslepend. \
+            Verwacht klassiekers als "The Chain", "Landslide", "Rhiannon" en "Don't Stop".
+            """,
+            imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/03/The-Cosmic-Carnival-Tribute-to-Fleetwood-Mac-Bandfoto.webp",
             genre: "Psychedelische Rock"
         ),
         Artist(
             name: "Treasure",
             tributeTo: "Bruno Mars",
-            description: "De ultieme Bruno Mars tribute ervaring",
+            description: """
+            Winnaar van The Tribute – Battle of the Bands 2025! Treasure levert de complete \
+            Bruno Mars concertervaring met een volledig gechoreografeerde show en 8-koppige band. \
+            Van "Uptown Funk" tot "24K Magic" – deze band brengt de choreografie, de blazers en \
+            die onweerstaanbare groove die Bruno Mars wereldberoemd maakte. Entertainment op het \
+            allerhoogste niveau.
+            """,
+            imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/03/blij.webp",
             genre: "Pop / R&B"
         ),
         Artist(
             name: "Donna's Hot Stuff",
             tributeTo: "Donna Summer",
-            description: "Disco queen tribute - dans de nacht door",
+            description: """
+            Een 13-koppige tributeband die het erfgoed van discokoningin Donna Summer viert! \
+            Met de Nederlandse zangeres Irma Derby aan het roer brengt Donna's Hot Stuff \
+            iconische hits als "Hot Stuff", "I Feel Love" en "Last Dance" tot leven. De \
+            formatie bestaat uit een liveband, achtergrondzangeressen, kopersectie, percussie \
+            én dansers. Winnaar van The Tribute – Battle of the Bands seizoen 5. \
+            Maak je klaar om de nacht door te dansen!
+            """,
+            imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/11/Donna_s-Hot-Stuff_CREDITS-WILLIAM-RUTTE-min-scaled.jpg",
             genre: "Disco"
         ),
         Artist(
             name: "Dirty Daddies",
             tributeTo: nil,
-            description: "Festival headliners met explosieve energie",
+            description: """
+            Deze zevenkoppige Nederlandse coverband sluit het festival in stijl af! De \
+            witgeklede beste vrienden toeren al meer dan tien jaar door het land met \
+            onbeperkte passie, bombast en vuurwerk. Ze verkochten meerdere keren AFAS Live \
+            en Ahoy uit. Hun setlist spant van rock en disco tot hits van de jaren '70 tot nu. \
+            Het geheim? Pure magie door hun ongekende interactie met het publiek. \
+            Verwacht een onvergetelijk feest!
+            """,
+            imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/03/thedirtydaddies_2024_liggend-scaled.jpg",
             genre: "Rock / Party"
         ),
 
@@ -163,26 +241,63 @@ enum FestivalData {
         Artist(
             name: "ABBA GOLD Europe",
             tributeTo: "ABBA",
-            description: "Europa's premier ABBA tribute - Dancing Queen wacht op je!",
+            description: """
+            Met voormalige castleden van de Londense productie van Mamma Mia! brengt \
+            ABBA GOLD Europe de grootste hits van ABBA met authenticiteit en theatrale \
+            flair. Twee vrouwelijke vocalisten en een rockband leveren het repertoire in \
+            zijn originele vorm – van "Dancing Queen" en "Waterloo" tot "The Winner Takes \
+            It All". Een onvergetelijke show vol energie, gezelligheid en ABBA's grootste \
+            hits. Dit wordt een echt ABBA-feest!
+            """,
+            imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/02/IMG_3046.jpg",
             genre: "Pop / Disco"
         ),
         Artist(
             name: "Urban Solitude",
             tributeTo: "Anouk",
-            description: "Krachtige vocalen als eerbetoon aan Nederlands rock-icoon Anouk",
+            description: """
+            De meest authentieke Anouk tributeband van Nederland en België! Urban Solitude \
+            vangt de essentie van Anouks krachtige songs, kenmerkende stem en dynamische \
+            podiumprésence. Van rock-anthems als "Nobody's Wife" en "R U Kiddin' Me" tot \
+            emotionele ballades als "Lost" – ze eren het Nederlandse rock-icoon met \
+            authenticiteit en rauwe kracht door haar hele carrière heen.
+            """,
+            imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/03/Anouk-Tribute-Urban-Solitude-Mariska-en-MIke-1024x1024-1.jpg",
             genre: "Rock / Pop"
         ),
         Artist(
             name: "Future Nostalgia",
             tributeTo: "Dua Lipa",
-            description: "Moderne pophits en dance anthems",
+            description: """
+            Een reis door moderne disco-pop die een hele generatie definieerde! Future \
+            Nostalgia brengt het beste van Dua Lipa's muziek met een mix van retro \
+            disco-esthetiek en hedendaagse productie. Verwacht hits als "Don't Start Now", \
+            "Physical", "Levitating", "Break My Heart", "New Rules", "One Kiss" en \
+            "Cold Heart". Dans mee op de beats die de wereld veroverden!
+            """,
+            imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/11/Scherm\u{00AD}afbeelding-2025-11-04-om-14.51.28.png",
             genre: "Pop / Dance"
         ),
         Artist(
             name: "The Dutch Queen",
             tributeTo: "Queen",
-            description: "Legendarische Queen tribute - Bohemian Rhapsody, We Will Rock You, en meer!",
-            genre: "Rock"
+            description: """
+            Vijf gerenommeerde Nederlandse muzikanten brengen het oeuvre van Queen tot leven! \
+            Van "Bohemian Rhapsody" en "We Will Rock You" tot diepere pareltjes en epische \
+            ballades – The Dutch Queen vangt de essentie van de legendarische band. Met \
+            Merijn van Haren (The Analogues, Navarone) op zang, Kees Lewiszong (Navarone, \
+            Douwe Bob) op gitaar, Joost van Haaren (Krezip, Novastar) op bas, Henk Jan \
+            Heuvelink (Marike Jager, Klein Orkest) op keys en Tim van Delft (De Staat) op \
+            drums. Een eerbetoon aan Freddie Mercury, Brian May, Roger Taylor en John Deacon.
+            """,
+            imageURL: "https://iconicfestival.nl/wp-content/uploads/2025/12/about-bg-scaled-1-e1765997380313.jpg",
+            genre: "Rock",
+            socials: ArtistSocials(
+                website: "https://thedutchqueen.com",
+                instagram: "https://www.instagram.com/thedutchqueen_band/",
+                facebook: "https://www.facebook.com/thedutchqueenband",
+                youtube: "https://www.youtube.com/@thedutchqueen"
+            )
         )
     ]
 

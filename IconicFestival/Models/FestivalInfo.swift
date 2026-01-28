@@ -48,6 +48,7 @@ struct ContactInfo {
     let instagram: String
     let instagramURL: String
     let facebook: String
+    let facebookURL: String
     let linktree: String
     let emergencyPhone: String
 }
@@ -66,6 +67,7 @@ enum FestivalInfo {
         instagram: "@iconic_festival",
         instagramURL: "https://www.instagram.com/iconic_festival/",
         facebook: "IconicFestivalNL",
+        facebookURL: "https://www.facebook.com/iconictribute/",
         linktree: "https://linktr.ee/iconic_festival",
         emergencyPhone: "112"
     )

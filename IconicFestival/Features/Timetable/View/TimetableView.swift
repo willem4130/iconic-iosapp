@@ -40,14 +40,19 @@ struct TimetableView: View {
     // MARK: - Logo Header
 
     private var logoHeader: some View {
-        HStack {
-            Spacer()
+        VStack(spacing: 4) {
             Image("IconicLogo")
                 .resizable()
                 .scaledToFit()
                 .frame(height: 60)
-            Spacer()
+
+            // Festival date
+            Text(FestivalData.festivalDate)
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .foregroundColor(AppColors.primaryGold)
         }
+        .frame(maxWidth: .infinity)
         .padding(.vertical, 8)
         .background(AppColors.primaryDark)
     }
@@ -55,13 +60,30 @@ struct TimetableView: View {
     // MARK: - View Mode Picker
 
     private var viewModePicker: some View {
-        Picker("Weergave", selection: $selectedViewMode) {
+        HStack(spacing: 0) {
             ForEach(ViewMode.allCases, id: \.self) { mode in
-                Text(mode.rawValue).tag(mode)
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        selectedViewMode = mode
+                    }
+                } label: {
+                    Text(mode.rawValue)
+                        .font(.subheadline)
+                        .fontWeight(selectedViewMode == mode ? .semibold : .regular)
+                        .foregroundColor(selectedViewMode == mode ? AppColors.primaryDark : .white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 10)
+                        .background(
+                            selectedViewMode == mode
+                                ? AppColors.primaryWhite
+                                : Color.white.opacity(0.15)
+                        )
+                }
             }
         }
-        .pickerStyle(.segmented)
-        .padding()
+        .cornerRadius(8)
+        .padding(.horizontal)
+        .padding(.vertical, 12)
         .background(AppColors.primaryDark)
     }
 
@@ -575,6 +597,11 @@ struct PerformanceDetailSheet: View {
                     // Description
                     descriptionSection
 
+                    // Social links
+                    if performance.artist.socials.hasAny {
+                        socialsSection
+                    }
+
                     // Stage info
                     stageSection
                 }
@@ -593,16 +620,27 @@ struct PerformanceDetailSheet: View {
 
     private var headerSection: some View {
         VStack(alignment: .center, spacing: 12) {
-            // Placeholder artist image
-            ZStack {
-                Circle()
-                    .fill(stageColor.opacity(0.2))
+            // Artist image
+            CachedAsyncImage(
+                url: performance.artist.imageURL.flatMap { URL(string: $0) }
+            ) { image in
+                image
+                    .resizable()
+                    .scaledToFill()
                     .frame(width: 120, height: 120)
+                    .clipShape(Circle())
+            } placeholder: {
+                ZStack {
+                    Circle()
+                        .fill(stageColor.opacity(0.2))
+                        .frame(width: 120, height: 120)
 
-                Image(systemName: "music.mic")
-                    .font(.system(size: 50))
-                    .foregroundColor(stageColor)
+                    Image(systemName: "music.mic")
+                        .font(.system(size: 50))
+                        .foregroundColor(stageColor)
+                }
             }
+            .frame(width: 120, height: 120)
 
             if performance.isHeadliner {
                 Text("HEADLINER")
@@ -680,6 +718,62 @@ struct PerformanceDetailSheet: View {
             Text(performance.artist.description)
                 .font(.body)
                 .foregroundColor(AppColors.textPrimary)
+        }
+    }
+
+    private var socialsSection: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Label("Links", systemImage: "link")
+                .font(.headline)
+                .foregroundColor(stageColor)
+
+            HStack(spacing: 16) {
+                if let website = performance.artist.socials.website,
+                   let url = URL(string: website) {
+                    Link(destination: url) {
+                        socialIcon(systemName: "globe", label: "Website")
+                    }
+                }
+                if let instagram = performance.artist.socials.instagram,
+                   let url = URL(string: instagram) {
+                    Link(destination: url) {
+                        socialIcon(systemName: "camera.fill", label: "Instagram")
+                    }
+                }
+                if let facebook = performance.artist.socials.facebook,
+                   let url = URL(string: facebook) {
+                    Link(destination: url) {
+                        socialIcon(systemName: "person.2.fill", label: "Facebook")
+                    }
+                }
+                if let spotify = performance.artist.socials.spotify,
+                   let url = URL(string: spotify) {
+                    Link(destination: url) {
+                        socialIcon(systemName: "headphones", label: "Spotify")
+                    }
+                }
+                if let youtube = performance.artist.socials.youtube,
+                   let url = URL(string: youtube) {
+                    Link(destination: url) {
+                        socialIcon(systemName: "play.rectangle.fill", label: "YouTube")
+                    }
+                }
+            }
+            .padding()
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(AppColors.secondaryBackground)
+            .cornerRadius(12)
+        }
+    }
+
+    private func socialIcon(systemName: String, label: String) -> some View {
+        VStack(spacing: 4) {
+            Image(systemName: systemName)
+                .font(.title3)
+                .foregroundColor(stageColor)
+            Text(label)
+                .font(.caption2)
+                .foregroundColor(AppColors.textSecondary)
         }
     }
 

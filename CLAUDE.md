@@ -90,3 +90,16 @@ xcodebuild test -scheme IconicFestival -destination 'platform=iOS Simulator,name
 **Main Stage:** Beach Boys' Best (14:00) → Coming on Strong → Cosmic Carnival → Treasure → Donna's Hot Stuff → Dirty Daddies (22:15, Headliner)
 
 **Openluchttheater:** ABBA GOLD (15:00) → Urban Solitude → Future Nostalgia → The Dutch Queen (21:00, Headliner)
+
+## Artist Images
+
+All artist photos are loaded from `iconicfestival.nl` via the `imageURL` field on each `Artist` in `TimetableData.swift`. Images are displayed using `CachedAsyncImage` (in `Core/Components/CachedAsyncImage.swift`) which provides in-memory caching via `NSCache` (100 items / 50MB limit).
+
+## Festival Social Media
+
+- **Website:** https://www.iconicfestival.nl
+- **Instagram:** https://www.instagram.com/iconic_festival/
+- **Facebook:** https://www.facebook.com/iconictribute/
+- **Linktree:** https://linktr.ee/iconic_festival
+
+Contact URLs are defined in `FestivalInfo.swift` → `ContactInfo` struct.
